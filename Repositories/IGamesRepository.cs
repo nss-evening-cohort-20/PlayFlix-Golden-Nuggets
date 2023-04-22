@@ -7,7 +7,7 @@ namespace PlayFlix.Repositories
         void Add(Games game);
         void Delete(int id);
         List<Games> GetAll();
-        Games GetById(int id);
+        Games GetGameById(int id);
         void Update(Games game);
     }
 }

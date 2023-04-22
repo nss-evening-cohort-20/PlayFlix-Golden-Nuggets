@@ -1,9 +1,9 @@
 ﻿namespace PlayFlix.Models
 {
-    public class Users
+    public class User
     {
         public int Id { get; set; }
-        public int uId { get; set; }
+        public string uId { get; set; }
         public int Type { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

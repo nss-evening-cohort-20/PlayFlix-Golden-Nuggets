@@ -4,7 +4,7 @@ using PlayFlix.Utils;
 
 namespace PlayFlix.Repositories
 {
-    public class FavoriteGamesRepository : BaseRepository
+    public class FavoriteGamesRepository : BaseRepository, IFavoriteGamesRepository
     {
         public FavoriteGamesRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -57,33 +57,33 @@ namespace PlayFlix.Repositories
             }
         }
 
-        public void Update(Games game)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        UPDATE FavoriteGames
-                           SET Title = @Title,
-                               Description = @Description,
-                               Rating = @Rating,
-                               GameImg = @GameImg,
-                               iFrame = @iFrame,
-                         WHERE Id = @Id";
+        //public void Update(Games game)
+        //{
+        //    using (var conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (var cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"
+        //                UPDATE FavoriteGames
+        //                   SET Title = @Title,
+        //                       Description = @Description,
+        //                       Rating = @Rating,
+        //                       GameImg = @GameImg,
+        //                       iFrame = @iFrame,
+        //                 WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@Title", game.Title);
-                    DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
-                    DbUtils.AddParameter(cmd, "@Rating", game.Rating);
-                    DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
-                    DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
-                    DbUtils.AddParameter(cmd, "@Id", game.Id);
+        //            DbUtils.AddParameter(cmd, "@Title", game.Title);
+        //            DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
+        //            DbUtils.AddParameter(cmd, "@Rating", game.Rating);
+        //            DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
+        //            DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
+        //            DbUtils.AddParameter(cmd, "@Id", game.Id);
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
 
         public void Delete(int id)
         {
@@ -103,6 +103,5 @@ namespace PlayFlix.Repositories
 
 
 
-    }
-}
+ 
 

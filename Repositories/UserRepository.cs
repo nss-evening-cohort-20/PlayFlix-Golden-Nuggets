@@ -8,7 +8,7 @@ namespace PlayFlix.Repositories
     {
         public UserRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Users> GetAll()
+        public List<User> GetAll()
         {
             using (var conn = Connection)
             {
@@ -20,10 +20,10 @@ namespace PlayFlix.Repositories
                             FROM Users";
                     var reader = cmd.ExecuteReader();
 
-                    var users = new List<Users>();
+                    var users = new List<User>();
                     while (reader.Read())
                     {
-                        users.Add(new Users()
+                        users.Add(new User()
                         {
                             Id = DbUtils.GetInt(reader, "uId"),
                             Type = DbUtils.GetInt(reader, "Type"),
@@ -41,7 +41,7 @@ namespace PlayFlix.Repositories
             }
         }
 
-        public Users GetById(int id)
+        public User GetByUserId(int id)
         {
             using (var conn = Connection)
             {
@@ -49,7 +49,7 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT uId,Type, FirstName, LastName, Bio
+                          SELECT Id, uId,Type, FirstName, LastName, Bio
                             FROM Users
                            WHERE Id = @Id";
 
@@ -57,12 +57,49 @@ namespace PlayFlix.Repositories
 
                     var reader = cmd.ExecuteReader();
 
-                    Users user = null;
+                    User user = null;
                     if (reader.Read())
                     {
-                        user = new Users()
+                        user = new User()
                         {
-                            Id = DbUtils.GetInt(reader, "uId"),
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            uId = DbUtils.GetString(reader, "uId"),
+                            Type = DbUtils.GetInt(reader, "Type"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            Bio = DbUtils.GetString(reader, "Bio"),
+                        };
+                    }
+
+                    reader.Close();
+
+                    return user;
+                }
+            }
+        }
+        public User GetByFirebaseId(string uid)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                          SELECT Id, uId,Type, FirstName, LastName, Bio
+                            FROM Users
+                           WHERE uId = @uId";
+
+                    DbUtils.AddParameter(cmd, "@uId", uid);
+
+                    var reader = cmd.ExecuteReader();
+
+                    User user = null;
+                    if (reader.Read())
+                    {
+                        user = new User()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            uId = DbUtils.GetString(reader, "uId"),
                             Type = DbUtils.GetInt(reader, "Type"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
@@ -78,7 +115,7 @@ namespace PlayFlix.Repositories
         }
 
 
-        public void Add(Users user)
+        public void Add(User user)
         {
             using (var conn = Connection)
             {
@@ -99,7 +136,7 @@ namespace PlayFlix.Repositories
                 }
             }
         }
-        public void Update(Users user)
+        public void Update(User user)
         {
             using (var conn = Connection)
             {
