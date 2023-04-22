@@ -4,7 +4,7 @@ using PlayFlix.Utils;
 
 namespace PlayFlix.Repositories
 {
-    public class GenreRepository : BaseRepository
+    public class GenreRepository : BaseRepository, IGenreRepository
     {
         public GenreRepository(IConfiguration configuration) : base(configuration) { }
 

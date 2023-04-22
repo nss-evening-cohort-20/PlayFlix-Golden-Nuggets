@@ -4,10 +4,11 @@ namespace PlayFlix.Repositories
 {
     public interface IUserRepository
     {
-        void Add(Users user);
+        void Add(User user);
         void Delete(int id);
-        List<Users> GetAll();
-        Users GetById(int id);
-        void Update(Users user);
+        List<User> GetAll();
+        User GetByFirebaseId(string uid);
+        User GetByUserId(int id);
+        void Update(User user);
     }
 }

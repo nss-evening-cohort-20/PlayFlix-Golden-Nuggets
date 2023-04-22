@@ -42,7 +42,7 @@ namespace PlayFlix.Repositories
             }
         }
 
-        public Games GetById(int id)
+        public Games GetGameById(int id)
         {
             using (var conn = Connection)
             {
