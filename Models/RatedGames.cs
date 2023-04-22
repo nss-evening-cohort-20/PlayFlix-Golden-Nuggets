@@ -3,8 +3,8 @@
     public class RatedGames
     {
         public int Id { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
         public int GameId { get; set; }
-        public int AverageRating { get; set; }
+       public string Uid { get; set; }
     }
 }

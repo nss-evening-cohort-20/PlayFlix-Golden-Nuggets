@@ -27,11 +27,13 @@ namespace PlayFlix.Repositories
                     ,G.[Title]
                     ,G.[Description]
                     ,Average_Rating
-                    ,G.[Genre]
+                    ,GN.[genreType]
                     ,G.[GameImg]
                     ,G.[iframe]
+                    ,G.[Rating]
                     FROM Games AS G
-                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]";
+                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]
+					join genre as GN on GN.id = G.Genre";
                     var reader = cmd.ExecuteReader();
 
                     var games = new List<Games>();
@@ -40,9 +42,10 @@ namespace PlayFlix.Repositories
                         games.Add(new Games()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            Title = DbUtils.GetInt(reader, "Title"),
+                            Title = DbUtils.GetString(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
-                            Rating = DbUtils.GetInt(reader, "AVGR"),
+                            Rating = DbUtils.GetInt(reader, "Rating"),
+                            UserRating = DbUtils.GetInt(reader, "AVGR"),
                             Genre = DbUtils.GetString(reader, "Genre"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
@@ -76,11 +79,13 @@ namespace PlayFlix.Repositories
                     ,G.[Title]
                     ,G.[Description]
                     ,Average_Rating
-                    ,G.[Genre]
+                    ,GN.[genreType]
                     ,G.[GameImg]
                     ,G.[iframe]
+                    ,G.[Rating]
                     FROM Games AS G
                     join AverageRating as AVGR ON AVGR.gameId = G.[Id]
+					join genre as GN on GN.id = G.Genre
                     WHERE G.id = @Id;";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -93,7 +98,7 @@ namespace PlayFlix.Repositories
                         game = new Games()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            Title = DbUtils.GetInt(reader, "Title"),
+                            Title = DbUtils.GetString(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
                             Rating = DbUtils.GetInt(reader, "AVGR"),
                             Genre = DbUtils.GetString(reader, "Genre"),
