@@ -7,7 +7,7 @@ namespace PlayFlix.Repositories
     public class FavoriteGamesRepository : BaseRepository, IFavoriteGamesRepository
     {
         public FavoriteGamesRepository(IConfiguration configuration) : base(configuration) { }
-
+        //Will need to be GetAll(string Uid)? since this pulls ALL users favorited games
         public List<FavoriteGames> GetAll()
         {
             using (var conn = Connection)
@@ -16,8 +16,20 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id, GameId, Uid
-                            FROM FavoriteGames";
+                        SELECT
+                        FG.id as FavoriteGameId,
+                        FG.userId,
+                        G.Title,
+                        G.Rating,
+                        G.iframe,
+                        G.Id as GameId,
+                        GN.genreType,
+                        G.GameImg,
+                        G.[Description]
+                        FROM favoriteGames as FG
+                        JOIN Games AS G ON FG.gameId = G.Id
+                        JOIN genre AS GN ON GN.Id = G.Genre";
+
                     var reader = cmd.ExecuteReader();
 
                     var favoriteGames = new List<FavoriteGames>();
@@ -25,9 +37,19 @@ namespace PlayFlix.Repositories
                     {
                         favoriteGames.Add(new FavoriteGames()
                         {
-                            Id = DbUtils.GetInt(reader, "Id"),
+                            Id = DbUtils.GetInt(reader, "FavoriteGameId"),
                             GameId = DbUtils.GetInt(reader, "GameId"),
-                            UId = DbUtils.GetString(reader, "Uid"),
+                            UId = DbUtils.GetInt(reader, "userId"),
+                            Games = new Games()
+                            {
+                                Id = DbUtils.GetInt(reader, "GameId"),
+                                Title = DbUtils.GetString(reader, "Title"),
+                                Descrtiption = DbUtils.GetString(reader, "Description"),
+                                Rating = DbUtils.GetInt(reader, "Rating"),
+                                Genre = DbUtils.GetString(reader, "genreType"),
+                                GameImg = DbUtils.GetString(reader, "GameImg"),
+                                iFrame = DbUtils.GetString(reader, "iframe")
+                            }
                         });
                     }
 
@@ -56,34 +78,6 @@ namespace PlayFlix.Repositories
                 }
             }
         }
-
-        //public void Update(Games game)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                UPDATE FavoriteGames
-        //                   SET Title = @Title,
-        //                       Description = @Description,
-        //                       Rating = @Rating,
-        //                       GameImg = @GameImg,
-        //                       iFrame = @iFrame,
-        //                 WHERE Id = @Id";
-
-        //            DbUtils.AddParameter(cmd, "@Title", game.Title);
-        //            DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
-        //            DbUtils.AddParameter(cmd, "@Rating", game.Rating);
-        //            DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
-        //            DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
-        //            DbUtils.AddParameter(cmd, "@Id", game.Id);
-
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
 
         public void Delete(int id)
         {
