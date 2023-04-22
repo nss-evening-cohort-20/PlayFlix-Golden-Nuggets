@@ -16,8 +16,22 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id,Title, Description, Rating, GameImg, iFrame, Genre
-                            FROM Games";
+                    WITH AverageRating AS (
+                    SELECT 
+                    gameId
+		            ,AVG(RG.rating) as Average_Rating
+                     FROM RatedGames AS RG
+                     Group by gameId)
+                     SELECT 
+	                 G.[Id]
+                    ,G.[Title]
+                    ,G.[Description]
+                    ,Average_Rating
+                    ,G.[Genre]
+                    ,G.[GameImg]
+                    ,G.[iframe]
+                    FROM Games AS G
+                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]";
                     var reader = cmd.ExecuteReader();
 
                     var games = new List<Games>();
@@ -28,7 +42,7 @@ namespace PlayFlix.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetInt(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
-                            Rating = DbUtils.GetInt(reader, "Rating"),
+                            Rating = DbUtils.GetInt(reader, "AVGR"),
                             Genre = DbUtils.GetString(reader, "Genre"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
@@ -51,9 +65,23 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id,Title, Description, Rating, GameImg, iFrame, Genre
-                            FROM Games
-                           WHERE Id = @Id";
+                    WITH AverageRating AS (
+                    SELECT 
+                    gameId
+		            ,AVG(RG.rating) as Average_Rating
+                     FROM RatedGames AS RG
+                     Group by gameId)
+                     SELECT 
+	                 G.[Id]
+                    ,G.[Title]
+                    ,G.[Description]
+                    ,Average_Rating
+                    ,G.[Genre]
+                    ,G.[GameImg]
+                    ,G.[iframe]
+                    FROM Games AS G
+                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]
+                    WHERE G.id = @Id;";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -67,7 +95,7 @@ namespace PlayFlix.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetInt(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
-                            Rating = DbUtils.GetInt(reader, "Rating"),
+                            Rating = DbUtils.GetInt(reader, "AVGR"),
                             Genre = DbUtils.GetString(reader, "Genre"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
