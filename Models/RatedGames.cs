@@ -7,7 +7,5 @@
         public int GameId { get; set; }
         public int Uid { get; set; }
         Games games { get; set; }
-
-
     }
 }

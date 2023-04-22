@@ -16,7 +16,7 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id,Title, Description, Rating, GameImg, iFrame
+                          SELECT Id,Title, Description, Rating, GameImg, iFrame, Genre
                             FROM Games";
                     var reader = cmd.ExecuteReader();
 
@@ -29,6 +29,7 @@ namespace PlayFlix.Repositories
                             Title = DbUtils.GetInt(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
                             Rating = DbUtils.GetInt(reader, "Rating"),
+                            Genre = DbUtils.GetString(reader, "Genre"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
                         });
@@ -50,7 +51,7 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id,Title, Description, Rating, GameImg, iFrame
+                          SELECT Id,Title, Description, Rating, GameImg, iFrame, Genre
                             FROM Games
                            WHERE Id = @Id";
 
@@ -67,6 +68,7 @@ namespace PlayFlix.Repositories
                             Title = DbUtils.GetInt(reader, "Title"),
                             Descrtiption = DbUtils.GetString(reader, "Description"),
                             Rating = DbUtils.GetInt(reader, "Rating"),
+                            Genre = DbUtils.GetString(reader, "Genre"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
                         };
@@ -88,15 +90,16 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Games (Id,Title, Description, Rating, GameImg, iFrame)
+                        INSERT INTO Games (Id,Title, Description, Rating, GameImg, iFrame, Genre)
                         OUTPUT INSERTED.ID
-                        VALUES (@Title, @Description, @Rating, @GameImg, @iFrame)";
+                        VALUES (@Title, @Description, @Rating, @GameImg, @iFrame, @Genre)";
 
                     DbUtils.AddParameter(cmd, "@Title", game.Title);
                     DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
                     DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
                     DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
+                    DbUtils.AddParameter(cmd, "@Genre", game.Genre);
 
                     game.Id = (int)cmd.ExecuteScalar();
                 }
@@ -116,12 +119,14 @@ namespace PlayFlix.Repositories
                                Rating = @Rating,
                                GameImg = @GameImg,
                                iFrame = @iFrame,
+                                Genre = @Genre
                          WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Title", game.Title);
                     DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
                     DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
+                    DbUtils.AddParameter(cmd, "@Genre", game.Genre);
                     DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
                     DbUtils.AddParameter(cmd, "@Id", game.Id);
 
