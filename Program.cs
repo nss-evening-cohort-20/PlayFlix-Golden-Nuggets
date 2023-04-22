@@ -1,3 +1,5 @@
+using PlayFlix.Repositories;
+
 namespace PlayFlix
 {
     public class Program
@@ -7,7 +9,10 @@ namespace PlayFlix
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddTransient<IGenreRepository, GenreRepository>();
+            builder.Services.AddTransient<IGamesRepository, GamesRepository>();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IFavoriteGamesRepository, FavoriteGamesRepository>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
