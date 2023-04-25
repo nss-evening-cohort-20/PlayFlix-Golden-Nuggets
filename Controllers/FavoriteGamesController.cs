@@ -17,9 +17,9 @@ namespace PlayFlix.Controllers
         }
         // GET: api/<GamesController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string uId)
         {
-            return Ok(_favoriteGamesRepository.GetAll());
+            return Ok(_favoriteGamesRepository.GetAll(uId));
         }
 
         // POST api/<GamesController>

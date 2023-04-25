@@ -8,7 +8,7 @@ namespace PlayFlix.Repositories
     {
         public FavoriteGamesRepository(IConfiguration configuration) : base(configuration) { }
         //Will need to be GetAll(string Uid)? since this pulls ALL users favorited games
-        public List<FavoriteGames> GetAll()
+        public List<FavoriteGames> GetAll(string uId)
         {
             using (var conn = Connection)
             {
@@ -19,6 +19,9 @@ namespace PlayFlix.Repositories
                         SELECT
                         FG.id as FavoriteGameId,
                         FG.userId,
+                        U.uId,
+                        U.FirstName,
+                        U.LastName,
                         G.Title,
                         G.Rating,
                         G.iframe,
@@ -28,8 +31,10 @@ namespace PlayFlix.Repositories
                         G.[Description]
                         FROM favoriteGames as FG
                         JOIN Games AS G ON FG.gameId = G.Id
-                        JOIN genre AS GN ON GN.Id = G.Genre";
-
+                        JOIN genre AS GN ON GN.Id = G.Genre
+                        JOIN [User] AS U ON FG.userId = U.Id
+                        WHERE uId = @uId";
+                    cmd.Parameters.AddWithValue("@uId", uId);
                     var reader = cmd.ExecuteReader();
 
                     var favoriteGames = new List<FavoriteGames>();
@@ -39,7 +44,9 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "FavoriteGameId"),
                             GameId = DbUtils.GetInt(reader, "GameId"),
-                            UId = DbUtils.GetInt(reader, "userId"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            UId = DbUtils.GetString(reader, "uId"),
                             Games = new Games()
                             {
                                 Id = DbUtils.GetInt(reader, "GameId"),

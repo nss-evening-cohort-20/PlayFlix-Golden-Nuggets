@@ -6,7 +6,7 @@ namespace PlayFlix.Repositories
     {
         void Add(FavoriteGames favoriteGame);
         void Delete(int id);
-        List<FavoriteGames> GetAll();
+        List<FavoriteGames> GetAll(string uId);
         //void Update(Games game);
     }
 }
