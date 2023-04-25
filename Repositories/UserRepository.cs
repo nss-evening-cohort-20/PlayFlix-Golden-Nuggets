@@ -15,9 +15,13 @@ namespace PlayFlix.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                          SELECT uId,Type, FirstName, LastName, Bio
-                            FROM Users";
+                    cmd.CommandText = @"Select
+                                        U.[uId]
+                                       ,U.[Type]
+                                       ,U.[FirstName]
+                                       ,U.[LastName]
+                                       ,U.[Bio]
+                                       From[User] as U";
                     var reader = cmd.ExecuteReader();
 
                     var users = new List<User>();
@@ -49,9 +53,16 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id, uId,Type, FirstName, LastName, Bio
-                            FROM Users
-                           WHERE Id = @Id";
+                                        Select
+                                        U.Id
+                                        ,U.[uId]
+                                        ,U.[Type]
+                                        ,U.[FirstName]
+                                        ,U.[LastName]
+                                        ,U.[Bio]
+                                        From [User] as U
+                                        where U.uId = uId
+                                        ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
