@@ -32,7 +32,7 @@ namespace PlayFlix.Repositories
                     ,G.[iframe]
                     ,G.[Rating]
                     FROM Games AS G
-                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]
+                    left join AverageRating as AVGR ON AVGR.gameId = G.[Id]
 					join genre as GN on GN.id = G.Genre";
                     var reader = cmd.ExecuteReader();
 
@@ -43,10 +43,10 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetString(reader, "Title"),
-                            Descrtiption = DbUtils.GetString(reader, "Description"),
-                            Rating = DbUtils.GetInt(reader, "Rating"),
-                            UserRating = DbUtils.GetInt(reader, "AVGR"),
-                            Genre = DbUtils.GetString(reader, "Genre"),
+                            Description = DbUtils.GetString(reader, "Description"),
+                            Rating = DbUtils.GetNullableInt(reader, "Rating"),
+                            UserRating = DbUtils.GetNullableInt(reader, "Average_Rating"),
+                            Genre = DbUtils.GetString(reader, "genreType"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
                         });
@@ -84,7 +84,7 @@ namespace PlayFlix.Repositories
                     ,G.[iframe]
                     ,G.[Rating]
                     FROM Games AS G
-                    join AverageRating as AVGR ON AVGR.gameId = G.[Id]
+                    left join AverageRating as AVGR ON AVGR.gameId = G.[Id]
 					join genre as GN on GN.id = G.Genre
                     WHERE G.id = @Id;";
 
@@ -99,9 +99,9 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetString(reader, "Title"),
-                            Descrtiption = DbUtils.GetString(reader, "Description"),
-                            Rating = DbUtils.GetInt(reader, "AVGR"),
-                            Genre = DbUtils.GetString(reader, "Genre"),
+                            Description = DbUtils.GetString(reader, "Description"),
+                            Rating = DbUtils.GetNullableInt(reader, "Average_Rating"),
+                            Genre = DbUtils.GetString(reader, "genreType"),
                             GameImg = DbUtils.GetString(reader, "GameImg"),
                             iFrame = DbUtils.GetString(reader, "iFrame"),
                         };
@@ -115,7 +115,7 @@ namespace PlayFlix.Repositories
         }
 
 
-        public void Add(Games game)
+        public void Add(PostGames game)
         {
             using (var conn = Connection)
             {
@@ -123,22 +123,23 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Games (Id,Title, Description, Rating, GameImg, iFrame, Genre)
+                        INSERT INTO Games (Title, Description, Rating, GameImg, iFrame, Genre)
                         OUTPUT INSERTED.ID
                         VALUES (@Title, @Description, @Rating, @GameImg, @iFrame, @Genre)";
 
                     DbUtils.AddParameter(cmd, "@Title", game.Title);
-                    DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
+                    DbUtils.AddParameter(cmd, "@Description", game.Description);
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
                     DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
                     DbUtils.AddParameter(cmd, "@iFrame", game.iFrame);
                     DbUtils.AddParameter(cmd, "@Genre", game.Genre);
 
                     game.Id = (int)cmd.ExecuteScalar();
+                    
                 }
             }
         }
-        public void Update(Games game)
+        public void Update(PostGames game)
         {
             using (var conn = Connection)
             {
@@ -156,7 +157,7 @@ namespace PlayFlix.Repositories
                          WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Title", game.Title);
-                    DbUtils.AddParameter(cmd, "@Description", game.Descrtiption);
+                    DbUtils.AddParameter(cmd, "@Description", game.Description);
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
                     DbUtils.AddParameter(cmd, "@GameImg", game.GameImg);
                     DbUtils.AddParameter(cmd, "@Genre", game.Genre);

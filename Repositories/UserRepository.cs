@@ -16,7 +16,8 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Select
-                                        U.[uId]
+                                        U.[id]
+                                       ,U.[uId]
                                        ,U.[Type]
                                        ,U.[FirstName]
                                        ,U.[LastName]
@@ -29,8 +30,9 @@ namespace PlayFlix.Repositories
                     {
                         users.Add(new User()
                         {
-                            Id = DbUtils.GetInt(reader, "uId"),
-                            Type = DbUtils.GetInt(reader, "Type"),
+                            Id = DbUtils.GetInt(reader, "id"),
+                            uId = DbUtils.GetString(reader, "uId"),
+                            Type = DbUtils.GetString(reader, "Type"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
@@ -75,7 +77,7 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             uId = DbUtils.GetString(reader, "uId"),
-                            Type = DbUtils.GetInt(reader, "Type"),
+                            Type = DbUtils.GetString(reader, "Type"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
@@ -111,7 +113,7 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             uId = DbUtils.GetString(reader, "uId"),
-                            Type = DbUtils.GetInt(reader, "Type"),
+                            Type = DbUtils.GetString(reader, "Type"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
