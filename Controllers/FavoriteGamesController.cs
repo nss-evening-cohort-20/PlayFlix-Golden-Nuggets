@@ -17,14 +17,14 @@ namespace PlayFlix.Controllers
         }
         // GET: api/<GamesController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string uId)
         {
-            return Ok(_favoriteGamesRepository.GetAll());
+            return Ok(_favoriteGamesRepository.GetAll(uId));
         }
 
         // POST api/<GamesController>
         [HttpPost]
-        public IActionResult Post(FavoriteGames game)
+        public IActionResult Post(AddFavoriteGame game)
         {
             _favoriteGamesRepository.Add(game);
             return CreatedAtAction("Get", new { id = game.Id }, game);
