@@ -36,7 +36,7 @@ namespace PlayFlix.Controllers
 
         // POST api/<GamesController>
         [HttpPost]
-        public IActionResult Post(Games game)
+        public IActionResult Post(PostGames game)
         {
             _gamesRepository.Add(game);
             return CreatedAtAction("Get", new { id = game.Id }, game);
@@ -44,7 +44,7 @@ namespace PlayFlix.Controllers
 
         // PUT api/<GamesController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Games games)
+        public IActionResult Put(int id, PostGames games)
         {
             if (id != games.Id) 
             {
