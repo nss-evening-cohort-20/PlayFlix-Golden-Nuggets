@@ -7,7 +7,7 @@ namespace PlayFlix.Repositories
     public class FavoriteGamesRepository : BaseRepository, IFavoriteGamesRepository
     {
         public FavoriteGamesRepository(IConfiguration configuration) : base(configuration) { }
-        //Will need to be GetAll(string Uid)? since this pulls ALL users favorited games
+        
         public List<FavoriteGames> GetAll(string uId)
         {
             using (var conn = Connection)
@@ -51,7 +51,7 @@ namespace PlayFlix.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "GameId"),
                                 Title = DbUtils.GetString(reader, "Title"),
-                                Descrtiption = DbUtils.GetString(reader, "Description"),
+                                Description = DbUtils.GetString(reader, "Description"),
                                 Rating = DbUtils.GetInt(reader, "Rating"),
                                 Genre = DbUtils.GetString(reader, "genreType"),
                                 GameImg = DbUtils.GetString(reader, "GameImg"),
