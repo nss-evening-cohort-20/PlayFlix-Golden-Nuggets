@@ -46,6 +46,7 @@ builder.Services.AddTransient<IGenreRepository, GenreRepository>();
             builder.Services.AddTransient<IGamesRepository, GamesRepository>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IFavoriteGamesRepository, FavoriteGamesRepository>();
+            builder.Services.AddTransient<IRatedGamesRepository, RatedGamesRepository>();
 //^^^^^^^^^^^^^^^^^^^^ Add Dependency Injections here ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
      .AddJwtBearer(options =>
