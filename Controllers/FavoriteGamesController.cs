@@ -24,7 +24,7 @@ namespace PlayFlix.Controllers
 
         // POST api/<GamesController>
         [HttpPost]
-        public IActionResult Post(FavoriteGames game)
+        public IActionResult Post(AddFavoriteGame game)
         {
             _favoriteGamesRepository.Add(game);
             return CreatedAtAction("Get", new { id = game.Id }, game);

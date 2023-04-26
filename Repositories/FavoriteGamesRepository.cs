@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using PlayFlix.Models;
 using PlayFlix.Utils;
+using System.Buffers;
 
 namespace PlayFlix.Repositories
 {
@@ -67,7 +68,7 @@ namespace PlayFlix.Repositories
             }
         }
 
-        public void Add(FavoriteGames favoriteGame)
+        public void Add(AddFavoriteGame favoriteGame)
         {
             using (var conn = Connection)
             {
@@ -75,13 +76,16 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO FavoriteGames (Id,GameId, Uid)
+                        INSERT INTO FavoriteGames (gameId, userId)
                         OUTPUT INSERTED.ID
-                        VALUES (@GameId, @UserId)";
+                        VALUES (@gameId, @userId)";
 
-                    DbUtils.AddParameter(cmd, "@GameId", favoriteGame.GameId);
-                    DbUtils.AddParameter(cmd, "@UserId", favoriteGame.UId);
-                    favoriteGame.Id = (int)cmd.ExecuteScalar();
+                    DbUtils.AddParameter(cmd, "@gameId", favoriteGame.GameId);
+                    DbUtils.AddParameter(cmd, "@userId", favoriteGame.UserId);
+                    
+                    int id = (int)cmd.ExecuteScalar();
+
+                    favoriteGame.Id = id;
                 }
             }
         }
@@ -93,7 +97,7 @@ namespace PlayFlix.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Games WHERE Id = @Id";
+                    cmd.CommandText = "DELETE FROM favoriteGames WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
