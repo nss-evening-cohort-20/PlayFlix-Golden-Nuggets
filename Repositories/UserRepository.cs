@@ -63,7 +63,7 @@ namespace PlayFlix.Repositories
                                         ,U.[LastName]
                                         ,U.[Bio]
                                         From [User] as U
-                                        where U.uId = uId
+                                        where U.Id = @Id
                                         ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -98,9 +98,16 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Id, uId,Type, FirstName, LastName, Bio
-                            FROM Users
-                           WHERE uId = @uId";
+                                        Select
+                                        U.Id
+                                        ,U.[uId]
+                                        ,U.[Type]
+                                        ,U.[FirstName]
+                                        ,U.[LastName]
+                                        ,U.[Bio]
+                                        From [User] as U
+                                        where U.uId = @uId
+                                        ";
 
                     DbUtils.AddParameter(cmd, "@uId", uid);
 
