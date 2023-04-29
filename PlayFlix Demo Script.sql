@@ -53,7 +53,8 @@ CREATE TABLE [RatedGames] (
   [id] int PRIMARY KEY identity NOT NULL,
   [rating] int,
   [gameId] int,
-  [userId] int
+  [userId] int,
+  [review] nvarchar(500)
 )
 GO
 
@@ -87,7 +88,7 @@ INSERT INTO dbo.favoriteGames([gameId],[userId] ) VALUES ( 3,2)
 INSERT INTO dbo.favoriteGames([gameId],[userId] ) VALUES ( 4,2)
 
 
-INSERT INTO dbo.RatedGames( [rating], [gameId],[userId]) VALUES ( 5, 1,1)
+INSERT INTO dbo.RatedGames( [rating], [gameId],[userId], [review]) VALUES ( 5, 1,1, 'My favorite game')
 INSERT INTO dbo.RatedGames( [rating], [gameId],[userId]) VALUES ( 4, 2,1)
 INSERT INTO dbo.RatedGames( [rating], [gameId],[userId]) VALUES ( 2, 3,1)
 INSERT INTO dbo.RatedGames( [rating], [gameId],[userId]) VALUES ( 4, 4,1)

@@ -21,6 +21,7 @@ namespace PlayFlix.Repositories
                     ,R.[userId]
                     ,R.[GameId]
                     ,R.[Rating]
+                    ,R.[Review]
                     From[RatedGames] as R;";
                     var reader = cmd.ExecuteReader();
 
@@ -33,6 +34,7 @@ namespace PlayFlix.Repositories
                             UserId = DbUtils.GetInt(reader, "userId"),
                             GameId = DbUtils.GetInt(reader, "GameId"),
                             Rating = DbUtils.GetInt(reader, "Rating"),
+                            Review = DbUtils.GetString(reader, "Review")
                         });
                     }
 
@@ -57,6 +59,7 @@ namespace PlayFlix.Repositories
                     ,R.[userId]
                     ,R.[GameId]
                     ,R.[Rating]
+                    ,R.[Review]
                     From[RatedGames] as R
                     WHERE R.[userId] = @Id;";
 
@@ -73,6 +76,7 @@ namespace PlayFlix.Repositories
                             UserId = DbUtils.GetInt(reader, "userId"),
                             GameId = DbUtils.GetInt(reader, "GameId"),
                             Rating = DbUtils.GetInt(reader, "Rating"),
+                            Review = DbUtils.GetString(reader, "Review")
                         });
                     }
 
@@ -95,11 +99,12 @@ namespace PlayFlix.Repositories
                     cmd.CommandText = @"
                         INSERT INTO RatedGames (userId, GameId, Rating)
                         OUTPUT INSERTED.ID
-                        VALUES (@userId, @GameId, @Rating)";
+                        VALUES (@userId, @GameId, @Rating, @Review)";
 
                     DbUtils.AddParameter(cmd, "@userId", game.UserId);
                     DbUtils.AddParameter(cmd, "@GameId", game.GameId);
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
+                    DbUtils.AddParameter(cmd, "@Review", game.Review);
 
                     int id = (int)cmd.ExecuteScalar();
                     game.Id = id;
@@ -118,8 +123,10 @@ namespace PlayFlix.Repositories
                         UPDATE RatedGames
                            SET 
                             Rating = @Rating,
+                            Review = @Review
                          WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@Rating", game.Rating);
+                    DbUtils.AddParameter(cmd, "@Review", game.Review);
 
                     cmd.ExecuteNonQuery();
                 }
