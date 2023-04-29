@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using PlayFlix.Models;
 using PlayFlix.Utils;
 
@@ -16,13 +17,14 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Select
-                                        U.[id]
-                                       ,U.[uId]
-                                       ,U.[Type]
-                                       ,U.[FirstName]
-                                       ,U.[LastName]
-                                       ,U.[Bio]
-                                       From[User] as U";
+                                U.[id]
+                                ,U.[uId]
+                                ,U.[Type]
+                                ,U.[FirstName]
+                                ,U.[LastName]
+                                ,U.[Bio]
+                                ,U.[ProfileImg]
+                                From[User] as U";
                     var reader = cmd.ExecuteReader();
 
                     var users = new List<User>();
@@ -36,9 +38,9 @@ namespace PlayFlix.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
+                            ProfileImg = DbUtils.GetString(reader, "ProfileImg"), // Updated column name here
                         });
                     }
-
 
                     reader.Close();
 
@@ -46,7 +48,6 @@ namespace PlayFlix.Repositories
                 }
             }
         }
-
         public User GetByUserId(int id)
         {
             using (var conn = Connection)
@@ -62,6 +63,7 @@ namespace PlayFlix.Repositories
                                         ,U.[FirstName]
                                         ,U.[LastName]
                                         ,U.[Bio]
+                                        ,U.[ProfileImg]              
                                         From [User] as U
                                         where U.Id = @Id
                                         ";
@@ -81,6 +83,7 @@ namespace PlayFlix.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
+                            ProfileImg = DbUtils.GetString(reader, "ProfileImg"),
                         };
                     }
 
@@ -109,6 +112,7 @@ namespace PlayFlix.Repositories
                                         where U.uId = @uId
                                         ";
 
+
                     DbUtils.AddParameter(cmd, "@uId", uid);
 
                     var reader = cmd.ExecuteReader();
@@ -124,6 +128,7 @@ namespace PlayFlix.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Bio = DbUtils.GetString(reader, "Bio"),
+                            ProfileImg = DbUtils.GetString(reader, "ProfileImg"),
                         };
                     }
 
@@ -143,14 +148,16 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Users (uId,Type, FirstName, LastName, Bio)
-                        OUTPUT INSERTED.ID
-                        VALUES (@Type, @FirstName, @LastName, @Bio)";
+                           INSERT INTO [User] (uId,Type, FirstName, LastName, Bio)
+                            OUTPUT INSERTED.ID
+                            VALUES (@uId, @Type, @FirstName, @LastName, @Bio @ProfileImg)";
 
+                    DbUtils.AddParameter(cmd, "@uId", user.uId);
                     DbUtils.AddParameter(cmd, "@Type", user.Type);
                     DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", user.LastName);
                     DbUtils.AddParameter(cmd, "@Bio", user.Bio);
+                    DbUtils.AddParameter(cmd, "@ProfileImg", user.ProfileImg);
 
                     user.Id = (int)cmd.ExecuteScalar();
                 }
@@ -164,11 +171,12 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE Users
+                        UPDATE [User]
                            SET Type = @Type,
                                FirstName = @FirstName,
                                LastName = @LastName,
                                Bio = @Bio
+                               ProfileImg=@ProfileImg
                          WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Type", user.Type);
@@ -189,7 +197,7 @@ namespace PlayFlix.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Users WHERE Id = @Id";
+                    cmd.CommandText = "DELETE FROM [User] WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }

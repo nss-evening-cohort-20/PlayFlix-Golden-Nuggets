@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
-import PlayFlix_Logo from "../PlayFlix_Logo.png"
+import PlayFlix_Logo from "../img/PlayFlix_Logo.png"
 
 export const Login = () => {
   const [login, setLogin] = useState({
@@ -37,7 +37,15 @@ export const Login = () => {
       <section>
         <form className="form--login" onSubmit={onSubmitLoginEmail}>
           <img src={PlayFlix_Logo} alt="PlayFlix" />
-          <h2>Please sign in</h2>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <h1>Unlimited Games</h1>
+          <h3>Game Anywhere. Game Anytime</h3>
+          <p>Ready to Game? Enter your email to create or restart your membership.</p>
           <fieldset>
             <label htmlFor="inputEmail"> Email address </label>
             <input
