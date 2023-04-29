@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
-import PlayFlix_Logo from "../img/PlayFlix_Logo.png"
+import PlayFlix_Logo from "../img/PlayFlix_Logo.png";
+import logoBackground from "../img/logoBackground.png" 
+import GoogleButton from 'react-google-button'
+
 
 export const Login = () => {
   const [login, setLogin] = useState({
@@ -37,15 +40,12 @@ export const Login = () => {
       <section>
         <form className="form--login" onSubmit={onSubmitLoginEmail}>
           <img src={PlayFlix_Logo} alt="PlayFlix" />
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
+          <img className="retroGamesBackgrond" src={logoBackground} alt= "retro games" />         
+        <div className="Text">
           <h1>Unlimited Games</h1>
           <h3>Game Anywhere. Game Anytime</h3>
           <p>Ready to Game? Enter your email to create or restart your membership.</p>
+          </div>
           <fieldset>
             <label htmlFor="inputEmail"> Email address </label>
             <input
@@ -77,13 +77,14 @@ export const Login = () => {
           </fieldset>
         </form>
       </section>
-      <section className="link--register">
-        <Link to="/register">Not a member yet?</Link>
+      <section className="link--register">Register
+        <Link to="/register"> Here</Link>
       </section>
-      <h2>Login With Google?</h2>
-      <button type="submit" onClick={onSubmitLoginGoogle}>
-        Let's Do It!
-      </button>
+      {/* *<h2>Login With Google?</h2>*\ */}
+      <GoogleButton
+  type="light" // can be light or dark
+  onClick={() => { console.log('Google button clicked') }}
+/>
     </main>
     </div>
   );

@@ -4,6 +4,7 @@ h1 {
 }
 body{
   background-color: #04081F;
+  color: white;
 }
 fieldset {
   min-width: 0;
@@ -16,18 +17,39 @@ fieldset {
   display: inline-block;
   margin: 0 auto;
   text-align: left;
+
 }
 
 .form--login > fieldset > input[type="email"] {
   width: 25em;
   
 }
+.Text{
+  z-index: 1;
+  height: inherit;
+  margin-top: -75rem;
+}
+.retroGamesBackgrond{
+  opacity: 20%;
+  z-index: -10;
+}
+.form--login > fieldset > input[type="password"] {
+  width: 25em;
+
+  
+}
 
 .label--login {
   width: 8rem;
   display: inline-block;
-}
 
+}
+.link--register {
+  color: white;
+}
+.link--register :visited{
+  color: red;
+}
 .form-control {
   display: block;
   width: 94%;
