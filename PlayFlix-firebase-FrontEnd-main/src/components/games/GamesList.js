@@ -26,4 +26,19 @@ export const GamesList = ({}) => {
     },
     [games]
     );
+
+    return <>
+    <div className="games">
+            {
+                filteredGames.map(game => <Game key={`game--${game.id}`}
+                    id={game.id}
+                    title={game.title}
+                    img={game.gameImg}
+                    description={game.description}
+                    rating={game.rating}
+                    userRating={game.userRating}
+                    genre={game.genre} />)
+            }
+        </div>
+    </>
 }
