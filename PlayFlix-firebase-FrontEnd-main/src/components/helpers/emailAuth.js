@@ -31,7 +31,7 @@ export const getToken = async () => {
   return currentUser.getIdToken();
 };
 
-const postToSQLDB = async(userObj, userAuth) => {
+const postToSQLDB = async(userObj) => {
   const token = await getToken();
   await fetch(`${_apiUrl}/Users`, {
     method: "POST",
