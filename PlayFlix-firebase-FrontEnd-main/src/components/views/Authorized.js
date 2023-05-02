@@ -4,7 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 export const Authorized = ({ children }) => {
   const location = useLocation();
 
-  if (sessionStorage.getItem("capstone_user")) {
+  if (sessionStorage.getItem("PlayFlex_user")) {
     return children;
   } else {
     return (

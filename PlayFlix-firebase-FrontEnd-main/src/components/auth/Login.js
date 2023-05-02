@@ -86,7 +86,7 @@ export const Login = () => {
       {/* *<h2>Login With Google?</h2>*\ */}
       <GoogleButton
   type="light" // can be light or dark
-  onClick={() => { console.log('Google button clicked') }}/>
+  onClick={() => { onSubmitLoginGoogle() }}/>
       </section>
       
     </main>

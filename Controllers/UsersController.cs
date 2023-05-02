@@ -35,8 +35,8 @@ namespace PlayFlix.Controllers
             }
             return Ok(user);
         }
-
-        [HttpGet("uid/{uid}")]
+        
+        [Authorize, HttpGet("uid/{uid}")]
         public IActionResult GetByFirebaseId(string uid)
         {
             var user = _userRepository.GetByFirebaseId(uid);
@@ -48,7 +48,7 @@ namespace PlayFlix.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
+        [Authorize, HttpPost]
         public IActionResult Post(User user)
         {
             _userRepository.Add(user);

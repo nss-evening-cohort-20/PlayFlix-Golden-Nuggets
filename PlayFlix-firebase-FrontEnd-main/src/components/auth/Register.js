@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import "./Login.css";
-
-
-
+import { useNavigate } from "react-router-dom";
 
 
 export const Register = () => {
@@ -14,14 +11,12 @@ export const Register = () => {
     firstName: "",
     lastName: "",
     uid: "",
-    type: "email",
+    type: "",
     password: "",
     bio: "",
     profileImg: "",
   });
-
   let navigate = useNavigate();
-
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
