@@ -34,13 +34,17 @@ export const Login = () => {
   };
 
   return (
+    
     <div className="background">
-
+        
     <main className="container--login">
-      <section>
+    
+      <section className="login-section">
+      <div className="playflix-logo"><img src={PlayFlix_Logo} alt="PlayFlix" />
+      </div>
         <form className="form--login" onSubmit={onSubmitLoginEmail}>
-          <img src={PlayFlix_Logo} alt="PlayFlix" />
-          <img className="retroGamesBackgrond" src={logoBackground} alt= "retro games" />         
+        
+          {/* <img className="retroGamesBackgrond" src={logoBackground} alt= "retro games" />          */}
         <div className="Text">
           <h1>Unlimited Games</h1>
           <h3>Game Anywhere. Game Anytime</h3>
@@ -76,15 +80,15 @@ export const Login = () => {
             <button type="submit">Sign in</button>
           </fieldset>
         </form>
-      </section>
-      <section className="link--register">Register
+        <section className="link--register">Register
         <Link to="/register"> Here</Link>
       </section>
       {/* *<h2>Login With Google?</h2>*\ */}
       <GoogleButton
   type="light" // can be light or dark
-  onClick={() => { console.log('Google button clicked') }}
-/>
+  onClick={() => { console.log('Google button clicked') }}/>
+      </section>
+      
     </main>
     </div>
   );

@@ -7,13 +7,13 @@ import {
 } from "firebase/auth";
 
 
-const _apiUrl = "https://localhost:7082/api"
+const _apiUrl = "https://localhost:7215/api"
 
 //check our API to ensure that the firebase user that was just logged exists in our local SQL database
 const doesUserExist = (firebaseUserId) => {
   
   return getToken()
-    .then((token) => fetch(`${_apiUrl}/UserExists/${firebaseUserId}`, {
+    .then((token) => fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`
