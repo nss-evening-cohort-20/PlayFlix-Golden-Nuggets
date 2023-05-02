@@ -4,18 +4,28 @@ import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import "./Login.css";
 
+
+
+
+
 export const Register = () => {
   const [user, setUser] = useState({
     email: "",
-    fullName: "",
+    firstName: "",
+    lastName: "",
+    uid: "",
+    type: "email",
     password: "",
+    bio: "",
+    profileImg: "",
   });
+
   let navigate = useNavigate();
 
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate);
+    emailAuth.register(user, navigate)
   };
 
   const updateUser = (evt) => {
@@ -26,7 +36,9 @@ export const Register = () => {
 
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
+    
     googleAuth.signInRegister(navigate);
+
   };
 
   return (
@@ -34,13 +46,25 @@ export const Register = () => {
       <form className="form--login" onSubmit={handleRegister}>
         <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
         <fieldset>
-          <label htmlFor="fullName"> Full Name </label>
+          <label htmlFor="firstName">First Name</label>
           <input
             onChange={updateUser}
             type="text"
-            id="fullName"
+            id="firstName"
             className="form-control"
-            placeholder="Enter your name"
+            placeholder="Enter your first name"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="lastName"
+            className="form-control"
+            placeholder="Enter your last name"
             required
             autoFocus
           />
@@ -60,10 +84,34 @@ export const Register = () => {
           <label htmlFor="password"> Password </label>
           <input
             onChange={updateUser}
-            type="text"
+            type="password"
             id="password"
             className="form-control"
             placeholder="Must Be 6 Characters"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="bio">Bio</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="bio"
+            className="form-control"
+            placeholder="Tell us about yourself"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="profileImg">Profile Image</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="profileImg"
+            className="form-control"
+            placeholder="Image URL goes here"
             required
             autoFocus
           />

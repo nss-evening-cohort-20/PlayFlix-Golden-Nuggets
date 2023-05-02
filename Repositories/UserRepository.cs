@@ -108,6 +108,7 @@ namespace PlayFlix.Repositories
                                         ,U.[FirstName]
                                         ,U.[LastName]
                                         ,U.[Bio]
+                                        ,U.[ProfileImg]
                                         From [User] as U
                                         where U.uId = @uId
                                         ";
@@ -148,9 +149,9 @@ namespace PlayFlix.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                           INSERT INTO [User] (uId,Type, FirstName, LastName, Bio)
+                           INSERT INTO [User] (uId,Type, FirstName, LastName, Bio, ProfileImg )
                             OUTPUT INSERTED.ID
-                            VALUES (@uId, @Type, @FirstName, @LastName, @Bio @ProfileImg)";
+                            VALUES (@uId, @Type, @FirstName, @LastName, @Bio, @ProfileImg)";
 
                     DbUtils.AddParameter(cmd, "@uId", user.uId);
                     DbUtils.AddParameter(cmd, "@Type", user.Type);

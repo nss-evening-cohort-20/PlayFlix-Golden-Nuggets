@@ -18,7 +18,7 @@ const doesUserExist = (firebaseUserId) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  }).then(resp => resp.ok))
+  }).then(resp => resp.json()))
   
 }
 
@@ -41,7 +41,7 @@ export const emailAuth = {
     const userAuth = {};
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then((userCredential) => {
-            
+        
               userAuth.email = userCredential.user.email;
               userAuth.uid = userCredential.user.uid;
               userAuth.type= "email";
@@ -49,11 +49,22 @@ export const emailAuth = {
             .then((userExists) => {
               if (!userExists)  {
                   //navigate to new user page.
-                  navigate("/createuser")
-              } else {
+                  async function postToSQLDB() {
 
+                    await fetch(`${_apiUrl}/Users`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(userAuth)
+                    });                
+                  }
+                  postToSQLDB();
+                  sessionStorage.setItem("capstone_user", JSON.stringify(userAuth));
+                  navigate("/register")
+              } else {
                 // Saves the user to localstorage
-                localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+                sessionStorage.setItem("capstone_user", JSON.stringify(userAuth));
                 // Navigate us back to home
                 navigate("/")
               }

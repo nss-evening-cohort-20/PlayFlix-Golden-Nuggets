@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlayFlix.Repositories;
 using PlayFlix.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PlayFlix.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -40,7 +42,7 @@ namespace PlayFlix.Controllers
             var user = _userRepository.GetByFirebaseId(uid);
             if (user == null)
             {
-                return NotFound();
+                return Ok(false);
             }
             return Ok(user);
         }
