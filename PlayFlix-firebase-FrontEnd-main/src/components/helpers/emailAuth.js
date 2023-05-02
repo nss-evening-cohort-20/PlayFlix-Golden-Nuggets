@@ -41,7 +41,6 @@ export const emailAuth = {
     const userAuth = {};
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then((userCredential) => {
-        
               userAuth.email = userCredential.user.email;
               userAuth.uid = userCredential.user.uid;
               userAuth.type= "email";
@@ -49,6 +48,7 @@ export const emailAuth = {
             .then((userExists) => {
               if (!userExists)  {
                   //navigate to new user page.
+                  userObj.uid = userCredential.user.uid
                   async function postToSQLDB() {
 
                     await fetch(`${_apiUrl}/Users`, {
@@ -56,7 +56,7 @@ export const emailAuth = {
                       headers: {
                         "Content-Type": "application/json",
                       },
-                      body: JSON.stringify(userAuth)
+                      body: JSON.stringify(userObj)
                     });                
                   }
                   postToSQLDB();
