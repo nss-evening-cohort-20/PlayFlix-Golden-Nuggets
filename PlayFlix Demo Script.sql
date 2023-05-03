@@ -32,13 +32,9 @@ GO
 
 
 CREATE TABLE [User] (
-  [ProfileImg] nvarchar(255),
   [Id] int PRIMARY KEY identity NOT NULL,
   [uId] nvarchar(255),
   [Type] nvarchar(255),
-  [FirstName] nvarchar(255),
-  [LastName] nvarchar(255),
-  [Bio] nvarchar(255)
 )
 GO
 
@@ -58,8 +54,15 @@ CREATE TABLE [RatedGames] (
 )
 GO
 
-
-
+CREATE TABLE [UserProfiles] (
+	[Id] int PRIMARY KEY identity NOT NULL,
+	[UserId] int NOT NULL,
+	[ProfileImg] nvarchar(255),
+	[FirstName] nvarchar(255),
+	[LastName] nvarchar(255),
+	[Bio] nvarchar(255)
+)
+GO
 
 INSERT INTO dbo.[Games]([Title],[Description],[Rating],[Genre],[GameImg],[iframe]) VALUES ( 'Sonic Classic Heroes','Hedgehog Game',4,1,'https://info.sonicretro.org/images/thumb/0/08/Sonicclassicheroes.png/320px-Sonicclassicheroes.png', '<iframe src="https://www.retrogames.cc/embed/42046-sonic-classic-heroes.html" width="600" height="450" frameborder="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>')
 INSERT INTO dbo.[Games]([Title],[Description],[Rating],[Genre],[GameImg],[iframe]) VALUES ( 'Super Mario All Stars NES','Mario as an All Star',3,2,'https://upload.wikimedia.org/wikipedia/en/3/3c/Super_Mario_All_Stars_%28game_box_art%29.jpg', '<iframe src="https://www.retrogames.cc/embed/42845-super-mario-all-stars-nes.html" width="600" height="450" frameborder="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>')
@@ -77,9 +80,11 @@ INSERT INTO dbo.genre([genreType]) VALUES ( 'Puzzles')
 INSERT INTO dbo.genre([genreType]) VALUES ( 'Racing')
 
 
-INSERT INTO dbo.[User]([uId],[Type],[FirstName],[LastName],[Bio],[ProfileImg]) VALUES ( 'uid1234','General Type','John','Ligma','I am a man','https://images.fineartamerica.com/images/artworkimages/medium/3/ligma-helda-monica-transparent.png')
-INSERT INTO dbo.[User]([uId],[Type],[FirstName],[LastName],[Bio],[ProfileImg]) VALUES ( 'uid5678','General Type','Buddy','Boy','I am a boy','https://m.media-amazon.com/images/I/51H+n2N0aqL._UXNaN_FMjpg_QL85_.jpg')
+INSERT INTO dbo.[User]([uId],[Type]) VALUES ( 'uid1234','General Type')
+INSERT INTO dbo.[User]([uId],[Type]) VALUES ( 'uid5678','General Type')
 
+INSERT INTO dbo.[UserProfiles]([UserId],[FirstName],[LastName],[Bio],[ProfileImg]) VALUES (1,'John','Ligma','I am a man','https://images.fineartamerica.com/images/artworkimages/medium/3/ligma-helda-monica-transparent.png')
+INSERT INTO dbo.[UserProfiles]([UserId],[FirstName],[LastName],[Bio],[ProfileImg]) VALUES (2,'Buddy','Boy','I am a boy','https://m.media-amazon.com/images/I/51H+n2N0aqL._UXNaN_FMjpg_QL85_.jpg')
 
 INSERT INTO dbo.favoriteGames([gameId],[userId] ) VALUES ( 1,1)
 INSERT INTO dbo.favoriteGames([gameId],[userId] ) VALUES ( 2,1)
@@ -113,3 +118,5 @@ GO
 
 ALTER TABLE [RatedGames] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([Id])
 GO
+
+ALTER TABLE [UserProfiles] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])

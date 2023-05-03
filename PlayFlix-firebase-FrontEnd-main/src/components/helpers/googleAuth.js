@@ -54,7 +54,7 @@ export const googleAuth = {
     signOut(auth)
       .then(() => {
         // Remove user from localStorage
-        sessionStorage.removeItem("capstone_user");
+        sessionStorage.removeItem("PlayFlix_user");
         // Navigate us back home
         navigate("/");
         console.log("Sign Out Success!");
