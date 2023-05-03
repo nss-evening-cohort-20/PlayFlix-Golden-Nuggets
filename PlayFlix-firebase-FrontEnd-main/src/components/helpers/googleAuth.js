@@ -4,26 +4,38 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
+import { doesUserExist, postToSQLDB } from "./emailAuth";
 
 // SignIn brings up the google sign in pop up AND works
 // for both signing in AND registering a user
 
 export const googleAuth = {
   // Works to sign in AND register a user
-  signInRegister: function(navigate) {
+  signInRegister: function(navigate, userObj) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
+      const userAuth = {};
       signInWithPopup(auth, provider)
         .then((userCredential) => {
-          const userAuth = {
-            email: userCredential.user.email,
-            displayName: userCredential.user.displayName,
-            uid: userCredential.user.uid,
-            type: "google",
-          };
-          // Add user object to localStorage
-          localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+          
+          userAuth.email = userCredential.user.email,
+          userAuth.uid = userCredential.user.uid,
+          userAuth.type = "google",
+          
+          doesUserExist(userCredential.user.uid)
+          .then((userExists) => {
+            if(!userExists) {
+              userObj.uid = userCredential.user.uid
+              userObj.type = userAuth.type
+              postToSQLDB(userObj, userAuth)
+            } else {
+              sessionStorage.setItem("PlayFlix_user", JSON.stringify(userAuth));
+              navigate("/");
+            }
+          })
+        }).finally(() => {
+          sessionStorage.setItem("PlayFlix_user", JSON.stringify(userAuth));
           // Navigate us back home
           navigate("/");
           console.log("you did it");
@@ -42,7 +54,7 @@ export const googleAuth = {
     signOut(auth)
       .then(() => {
         // Remove user from localStorage
-        localStorage.removeItem("capstone_user");
+        sessionStorage.removeItem("capstone_user");
         // Navigate us back home
         navigate("/");
         console.log("Sign Out Success!");
@@ -54,3 +66,4 @@ export const googleAuth = {
       });
   },
 };
+

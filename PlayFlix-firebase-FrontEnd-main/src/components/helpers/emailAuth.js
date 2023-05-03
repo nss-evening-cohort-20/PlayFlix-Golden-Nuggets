@@ -9,7 +9,7 @@ import {
 const _apiUrl = "https://localhost:7215/api"
 
 //check our API to ensure that the firebase user that was just logged exists in our local SQL database
-const doesUserExist = (firebaseUserId) => {
+export const doesUserExist = async (firebaseUserId) => {
   
   return getToken()
     .then((token) => fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, {
@@ -31,7 +31,7 @@ export const getToken = async () => {
   return currentUser.getIdToken();
 };
 
-const postToSQLDB = async(userObj) => {
+export const postToSQLDB = async(userObj) => {
   const token = await getToken();
   await fetch(`${_apiUrl}/Users`, {
     method: "POST",
@@ -73,7 +73,7 @@ export const emailAuth = {
             console.log("error code", error.code);
             console.log("error message", error.message);
           }
-        ).then(() => {
+        ).finally(() => {
           sessionStorage.setItem("PlayFlex_user", JSON.stringify(userAuth))
           navigate("/")
         })
