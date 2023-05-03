@@ -11,34 +11,30 @@ import { doesUserExist, postToSQLDB } from "./emailAuth";
 
 export const googleAuth = {
   // Works to sign in AND register a user
-  signInRegister: function(navigate, userObj) {
+  signInRegister: function(navigate) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
-      const userAuth = {};
+      const userObj = {};
       signInWithPopup(auth, provider)
         .then((userCredential) => {
-          
-          userAuth.email = userCredential.user.email,
-          userAuth.uid = userCredential.user.uid,
-          userAuth.type = "google",
-          
+          const userAuth = {
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+          type: "google"
+          }
+          userObj.type = userAuth.type
+          userObj.uid = userCredential.user.uid
           doesUserExist(userCredential.user.uid)
           .then((userExists) => {
             if(!userExists) {
-              userObj.uid = userCredential.user.uid
-              userObj.type = userAuth.type
-              postToSQLDB(userObj, userAuth)
-            } else {
-              sessionStorage.setItem("PlayFlix_user", JSON.stringify(userAuth));
-              navigate("/");
-            }
+              postToSQLDB(userObj)
+            } 
           })
         }).finally(() => {
-          sessionStorage.setItem("PlayFlix_user", JSON.stringify(userAuth));
           // Navigate us back home
+          sessionStorage.setItem("PlayFlix_user", JSON.stringify(userObj));
           navigate("/");
-          console.log("you did it");
         })
         .catch((error) => {
           console.log("Google Sign In Error");

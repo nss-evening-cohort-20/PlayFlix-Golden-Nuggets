@@ -6,12 +6,12 @@ GO
 USE [PlayFlix]
 GO
 
+DROP TABLE IF EXISTS [favoriteGames];
+DROP TABLE IF EXISTS [RatedGames];
+DROP TABLE IF EXISTS [UserProfiles];
 DROP TABLE IF EXISTS [Games]; 
 DROP TABLE IF EXISTS [genre];
 DROP TABLE IF EXISTS [User];
-DROP TABLE IF EXISTS [favoriteGames];
-DROP TABLE IF EXISTS [RatedGames];
-
 
 CREATE TABLE [Games] (
   [Id] int PRIMARY KEY identity NOT NULL,
@@ -33,7 +33,7 @@ GO
 
 CREATE TABLE [User] (
   [Id] int PRIMARY KEY identity NOT NULL,
-  [uId] nvarchar(255),
+  [uId] nvarchar(255) NOT NULL,
   [Type] nvarchar(255),
 )
 GO

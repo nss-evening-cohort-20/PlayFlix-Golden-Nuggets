@@ -60,7 +60,7 @@ export const emailAuth = {
                   //creates new user and pushes uid to local database need to figure out the bearer token thing since it returns a 401
                   userObj.uid = userCredential.user.uid;
                   userObj.type = userAuth.type;
-                  postToSQLDB(userObj, userAuth);  
+                  postToSQLDB(userObj);  
               } else {
                 // if this is CREATING a user and checks to see if it exists already why would it store in localstorage?
                 alert("User already exists", navigate("/login"))
@@ -102,7 +102,7 @@ export const emailAuth = {
             } else {
               existingUser.displayName = "Blank"
               // Saves the user to localstorage
-              sessionStorage.setItem("PlayFlex_user", JSON.stringify(existingUser));
+              sessionStorage.setItem("PlayFlix_user", JSON.stringify(existingUser));
               // Navigate us back to home
               navigate("/");
               console.log(existingUser.displayName + "Signed In")
@@ -124,7 +124,7 @@ export const emailAuth = {
     signOut(auth)
       .then(() => {
         // Remove the user from localstorage
-        sessionStorage.removeItem("capstone_user");
+        sessionStorage.removeItem("PlayFlix_user");
         // Navigate us back to home
         navigate("/");
         console.log("Sign Out Success!");
