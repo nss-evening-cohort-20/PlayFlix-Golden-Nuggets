@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-
+import "./Game.css"
 export const Game = ({id, title, img, description, rating, userRating, genre}) => {
-return <section>
+return <div className="game">
     <div>
     {title}
     </div>
     <div>
-    {img}
+    <img src={img} className="gameImg"></img>
     </div>
     <div>
     {description}
@@ -20,5 +20,5 @@ return <section>
     <div>
     {genre}
     </div>
-</section>
+</div>
 }
