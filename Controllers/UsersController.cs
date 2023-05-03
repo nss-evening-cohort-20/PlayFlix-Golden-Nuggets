@@ -40,7 +40,7 @@ namespace PlayFlix.Controllers
             var user = _userRepository.GetByFirebaseId(uid);
             if (user == null)
             {
-                return NotFound();
+                return Ok(false);
             }
             return Ok(user);
         }
