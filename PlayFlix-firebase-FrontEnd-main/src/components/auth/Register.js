@@ -7,8 +7,13 @@ import "./Login.css";
 export const Register = () => {
   const [user, setUser] = useState({
     email: "",
-    fullName: "",
+    firstName: "",
+    lastName: "",
+    uid: "",
+    type: "User",
     password: "",
+    bio: "",
+    profileImg: "",
   });
   let navigate = useNavigate();
 
@@ -16,6 +21,8 @@ export const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     emailAuth.register(user, navigate);
+    const newUser = localUser.uid
+    await postToSQLDB(newUser);
   };
 
   const updateUser = (evt) => {
@@ -24,9 +31,27 @@ export const Register = () => {
     setUser(copy);
   };
 
+
+  const localUser = () => {
+    return JSON.parse(localStorage.getItem("capstone_user"))
+  }
+
+  const postToSQLDB = async (localUser) => {
+    user.uid = localUser
+    await fetch("https://localhost:7215/api/Users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+  };
+
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
+    
     googleAuth.signInRegister(navigate);
+
   };
 
   return (
@@ -34,13 +59,25 @@ export const Register = () => {
       <form className="form--login" onSubmit={handleRegister}>
         <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
         <fieldset>
-          <label htmlFor="fullName"> Full Name </label>
+          <label htmlFor="firstName">First Name</label>
           <input
             onChange={updateUser}
             type="text"
-            id="fullName"
+            id="firstName"
             className="form-control"
-            placeholder="Enter your name"
+            placeholder="Enter your first name"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="lastName"
+            className="form-control"
+            placeholder="Enter your last name"
             required
             autoFocus
           />
@@ -60,7 +97,7 @@ export const Register = () => {
           <label htmlFor="password"> Password </label>
           <input
             onChange={updateUser}
-            type="text"
+            type="password"
             id="password"
             className="form-control"
             placeholder="Must Be 6 Characters"
@@ -69,7 +106,31 @@ export const Register = () => {
           />
         </fieldset>
         <fieldset>
-          <button type="submit"> Register </button>
+          <label htmlFor="bio">Bio</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="bio"
+            className="form-control"
+            placeholder="Tell us about yourself"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="profileImg">Profile Image</label>
+          <input
+            onChange={updateUser}
+            type="text"
+            id="profileImg"
+            className="form-control"
+            placeholder="Image URL goes here"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <button type="submit" onClick={handleRegister}> Register </button>
         </fieldset>
       </form>
       <h2>Register With Google?</h2>

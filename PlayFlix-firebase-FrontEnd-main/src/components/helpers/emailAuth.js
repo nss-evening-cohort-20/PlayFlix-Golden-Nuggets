@@ -18,7 +18,7 @@ const doesUserExist = (firebaseUserId) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  }).then(resp => resp.ok))
+  }).then(resp => resp.json()))
   
 }
 
@@ -41,7 +41,7 @@ export const emailAuth = {
     const userAuth = {};
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then((userCredential) => {
-            
+        const auth = getAuth();
               userAuth.email = userCredential.user.email;
               userAuth.uid = userCredential.user.uid;
               userAuth.type= "email";
@@ -49,7 +49,8 @@ export const emailAuth = {
             .then((userExists) => {
               if (!userExists)  {
                   //navigate to new user page.
-                  navigate("/createuser")
+                  navigate("/register")
+                  localStorage.setItem("capstone_user", JSON.stringify(userAuth));
               } else {
 
                 // Saves the user to localstorage

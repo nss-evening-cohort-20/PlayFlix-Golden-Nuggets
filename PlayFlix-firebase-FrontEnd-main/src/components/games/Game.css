@@ -1,0 +1,13 @@
+.gameImg {
+    width: 250px;
+    height: 150px;
+}
+.games {
+    display: flex;
+    flex-direction: column;
+}
+
+.genreRow {
+    display: flex;
+    flex-direction: row;
+}   
