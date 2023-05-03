@@ -4,7 +4,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
-import { doesUserExist, postToSQLDB } from "./emailAuth";
+import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
 
 // SignIn brings up the google sign in pop up AND works
 // for both signing in AND registering a user
@@ -29,12 +29,15 @@ export const googleAuth = {
           .then((userExists) => {
             if(!userExists) {
               postToSQLDB(userObj)
-            } 
+            } else {
+              //gets user from db and sets user in local storage
+              getUserFromDB(userObj.uid).then(() => {
+                navigate("/")
+              })
+              //navigates to logged in page
+              
+            }
           })
-        }).finally(() => {
-          // Navigate us back home
-          sessionStorage.setItem("PlayFlix_user", JSON.stringify(userObj));
-          navigate("/");
         })
         .catch((error) => {
           console.log("Google Sign In Error");

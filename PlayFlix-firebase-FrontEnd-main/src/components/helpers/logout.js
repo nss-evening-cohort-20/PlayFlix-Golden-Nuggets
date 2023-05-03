@@ -6,7 +6,7 @@ import { emailAuth } from "./emailAuth";
 
 export const logout = {
   logout: function(navigate) {
-    const userRecord = JSON.parse(sessionStorage.getItem("PlayFlex_user"));
+    const userRecord = JSON.parse(sessionStorage.getItem("PlayFlix_user"));
     if (userRecord.type === "google") {
       googleAuth.signOut(navigate);
     } else if (userRecord.type === "email") {

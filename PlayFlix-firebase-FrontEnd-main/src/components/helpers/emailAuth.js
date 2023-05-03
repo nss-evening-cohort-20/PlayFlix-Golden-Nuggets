@@ -31,16 +31,31 @@ export const getToken = async () => {
   return currentUser.getIdToken();
 };
 
+export const getUserFromDB = async (firebaseUserId) => {
+  const token = await getToken();
+  const get = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const request = await fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, get)
+  const response = await request.json()
+  sessionStorage.setItem("PlayFlix_user", JSON.stringify(await response))
+}
+
 export const postToSQLDB = async(userObj) => {
   const token = await getToken();
-  await fetch(`${_apiUrl}/Users`, {
+  const post = {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify(userObj)
-  });         
+  }
+  const res = await fetch(`${_apiUrl}/Users`, post);
+  await res.json() 
 }
 
 export const emailAuth = {
@@ -96,16 +111,13 @@ export const emailAuth = {
           doesUserExist(SignInResponse.user.uid)
           .then((userExists) => {
             if (!userExists) {
-              
               navigate("/register")
               this.signOut();
             } else {
-              existingUser.displayName = "Blank"
-              // Saves the user to localstorage
-              sessionStorage.setItem("PlayFlix_user", JSON.stringify(existingUser));
-              // Navigate us back to home
-              navigate("/");
-              console.log(existingUser.displayName + "Signed In")
+              //gets user from db and sets user in local storage
+              getUserFromDB(existingUser.uid).then(() => {
+                navigate("/")
+              })
             }
           })
         }
@@ -115,7 +127,7 @@ export const emailAuth = {
           console.log("error code", error.code);
           console.log("error message", error.message);
           navigate("/register")
-        });
+        })
     });
   },
   // Sign out

@@ -6,12 +6,7 @@ import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
 import { GamesLeaderBoard } from "../games/GamesLeaderboard";
 export const ApplicationViews = () => {
-  let navigate = useNavigate();
-
-  // Move this to where ever you end up putting your logout button
-  const onLogout = () => {
-    logout.logout(navigate);
-  };
+  
 
   return (
     
