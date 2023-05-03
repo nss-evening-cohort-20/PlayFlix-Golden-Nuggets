@@ -29,6 +29,22 @@ export const Register = () => {
     setUser(copy);
   };
 
+
+  const localUser = () => {
+    return JSON.parse(localStorage.getItem("capstone_user"))
+  }
+
+  const postToSQLDB = async (localUser) => {
+    user.uid = localUser
+    await fetch("https://localhost:7215/api/Users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+  };
+
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
     
