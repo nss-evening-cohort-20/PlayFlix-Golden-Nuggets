@@ -5,7 +5,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 
 
-export const Register = () => {
+export const Register = ({setUserState, setUserCheck}) => {
   const [user, setUser] = useState({
     email: "",    
     password: "",
@@ -15,7 +15,7 @@ export const Register = () => {
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate)
+    emailAuth.register(user, navigate, setUserState, setUserCheck)
   };
 
   const updateUser = (evt) => {
@@ -28,7 +28,7 @@ export const Register = () => {
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
     
-    googleAuth.signInRegister(navigate);
+    googleAuth.signInRegister(navigate, setUserState, setUserCheck);
 
   };
 
@@ -45,6 +45,7 @@ export const Register = () => {
             className="form-control"
             placeholder="Email address"
             required
+            autoFocus
           />
         </fieldset>
         <fieldset>

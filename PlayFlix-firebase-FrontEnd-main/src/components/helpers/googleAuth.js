@@ -11,7 +11,7 @@ import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
 
 export const googleAuth = {
   // Works to sign in AND register a user
-  signInRegister: function(navigate) {
+  signInRegister: function(navigate, setUserState, setUserCheck) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -28,10 +28,12 @@ export const googleAuth = {
           doesUserExist(userCredential.user.uid)
           .then((userExists) => {
             if(!userExists) {
-              postToSQLDB(userObj)
+              postToSQLDB(userObj, setUserState, setUserCheck).then(() => {
+                navigate("/")
+              })
             } else {
               //gets user from db and sets user in local storage
-              getUserFromDB(userObj.uid).then(() => {
+              getUserFromDB(userObj.uid, setUserState, setUserCheck).then(() => {
                 navigate("/")
               })
               //navigates to logged in page
@@ -48,12 +50,14 @@ export const googleAuth = {
     });
   },
   // Sign out a user
-  signOut: function(navigate) {
+  signOut: function(navigate, setUserState, setUserCheck) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Remove user from localStorage
-        sessionStorage.removeItem("PlayFlix_user");
+        setUserState({})
+        setUserCheck(false)
+        //sessionStorage.removeItem("PlayFlix_user");
         // Navigate us back home
         navigate("/");
         console.log("Sign Out Success!");

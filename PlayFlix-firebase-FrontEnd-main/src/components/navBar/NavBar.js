@@ -1,22 +1,20 @@
-import { Link, useNavigate } from "react-router-dom"
 import { logout } from "../helpers/logout";
 
-export const NavBar = () => {
-    const navigate = useNavigate()
+export const NavBar = ({navigate, setUserState, setUserCheck, userCheck, userState}) => {
+    
     const onLogout = () => {
-        logout.logout(navigate("/login"));
+        logout.logout(navigate, setUserCheck, setUserState, userCheck, userState);
       };
     return (
         <>
             <ul>
-                
-                {
-                    sessionStorage.getItem("PlayFlix_user") ?
+
+                    
                     <li className="">
                         <button onClick={() => {onLogout()}}>Logout</button>
                     </li>
-                    : ""
-                }
+                    
+
                 
             </ul>
         </>

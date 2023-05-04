@@ -31,7 +31,7 @@ export const getToken = async () => {
   return currentUser.getIdToken();
 };
 
-export const getUserFromDB = async (firebaseUserId) => {
+export const getUserFromDB = async (firebaseUserId, setUserState, setUserCheck) => {
   const token = await getToken();
   const get = {
     method: "GET",
@@ -41,10 +41,13 @@ export const getUserFromDB = async (firebaseUserId) => {
   }
   const request = await fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, get)
   const response = await request.json()
-  sessionStorage.setItem("PlayFlix_user", JSON.stringify(await response))
+  //sessionStorage.setItem("PlayFlix_user", JSON.stringify(await response))
+  setUserState(await response);
+  setUserCheck(true);
+  
 }
 
-export const postToSQLDB = async(userObj) => {
+export const postToSQLDB = async(userObj, setUserState, setUserCheck) => {
   const token = await getToken();
   const post = {
     method: "POST",
@@ -54,13 +57,15 @@ export const postToSQLDB = async(userObj) => {
     },
     body: JSON.stringify(userObj)
   }
-  const res = await fetch(`${_apiUrl}/Users`, post);
-  await res.json() 
+  const req = await fetch(`${_apiUrl}/Users`, post);
+  const resp = await req.json()
+  setUserState(await resp)
+  setUserCheck(true)
 }
 
 export const emailAuth = {
   // Register New User
-  register: function(userObj, navigate) {
+  register: function(userObj, navigate, setUserState, setUserCheck) {
     const auth = getAuth();
     const userAuth = {}; 
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
@@ -75,7 +80,7 @@ export const emailAuth = {
                   //creates new user and pushes uid to local database need to figure out the bearer token thing since it returns a 401
                   userObj.uid = userCredential.user.uid;
                   userObj.type = userAuth.type;
-                  postToSQLDB(userObj);  
+                  postToSQLDB(userObj, setUserState, setUserCheck).then(() => navigate("/"));  
               } else {
                 // if this is CREATING a user and checks to see if it exists already why would it store in localstorage?
                 alert("User already exists", navigate("/login"))
@@ -88,10 +93,7 @@ export const emailAuth = {
             console.log("error code", error.code);
             console.log("error message", error.message);
           }
-        ).finally(() => {
-          sessionStorage.setItem("PlayFlex_user", JSON.stringify(userAuth))
-          navigate("/")
-        })
+        )
       .catch((error) => {
         console.log("Email Register Error");
         console.log("error code", error.code);
@@ -99,7 +101,7 @@ export const emailAuth = {
       });
   },
   // Sign in existing user
-  signIn: function(userObj, navigate) {
+  signIn: function(userObj, navigate, setUserState, setUserCheck) {
     return new Promise((res) => {
       const auth = getAuth();
       const existingUser = {};
@@ -115,7 +117,7 @@ export const emailAuth = {
               this.signOut();
             } else {
               //gets user from db and sets user in local storage
-              getUserFromDB(existingUser.uid).then(() => {
+              getUserFromDB(existingUser.uid, setUserState, setUserCheck).then(() => {
                 navigate("/")
               })
             }
@@ -131,12 +133,14 @@ export const emailAuth = {
     });
   },
   // Sign out
-  signOut: function(navigate) {
+  signOut: function(navigate,setUserState, setUserCheck) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Remove the user from localstorage
-        sessionStorage.removeItem("PlayFlix_user");
+        //sessionStorage.removeItem("PlayFlix_user");
+        setUserState({})
+        setUserCheck(false)
         // Navigate us back to home
         navigate("/");
         console.log("Sign Out Success!");

@@ -1,11 +1,11 @@
-import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
-import { logout } from "../helpers/logout";
+import { Outlet, Route, Routes } from "react-router-dom";
 import { GamesContainer } from "../games/GamesContainer"
 import { NavBar } from "../navBar/NavBar"
 import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
 import { GamesLeaderBoard } from "../games/GamesLeaderboard";
-export const ApplicationViews = () => {
+
+export const ApplicationViews = ({navigate, setUserState, setUserCheck, userCheck, userState}) => {
   
 
   return (
@@ -16,7 +16,7 @@ export const ApplicationViews = () => {
         path="/"
         element={
           <>
-          <NavBar/>
+          <NavBar navigate={navigate} userState={userState} setUserState={setUserState} userCheck={userCheck} setUserCheck={setUserCheck}/>
          <Outlet/>
          </>
         }>
