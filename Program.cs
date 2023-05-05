@@ -1,5 +1,6 @@
 using FirebaseAdmin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PlayFlix.Repositories;
@@ -14,6 +15,7 @@ using PlayFlix.Repositories;
     builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+IdentityModelEventSource.ShowPII = true;
 builder.Services.AddSwaggerGen(c =>
 {
     var securitySchema = new OpenApiSecurityScheme

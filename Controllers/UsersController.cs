@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlayFlix.Repositories;
 using PlayFlix.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PlayFlix.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -33,8 +35,8 @@ namespace PlayFlix.Controllers
             }
             return Ok(user);
         }
-
-        [HttpGet("uid/{uid}")]
+        
+        [Authorize, HttpGet("uid/{uid}")]
         public IActionResult GetByFirebaseId(string uid)
         {
             var user = _userRepository.GetByFirebaseId(uid);
@@ -46,7 +48,7 @@ namespace PlayFlix.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
+        [Authorize, HttpPost]
         public IActionResult Post(User user)
         {
             _userRepository.Add(user);

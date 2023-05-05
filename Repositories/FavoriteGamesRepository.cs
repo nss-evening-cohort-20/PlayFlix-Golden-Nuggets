@@ -21,8 +21,6 @@ namespace PlayFlix.Repositories
                         FG.id as FavoriteGameId,
                         FG.userId,
                         U.uId,
-                        U.FirstName,
-                        U.LastName,
                         G.Title,
                         G.Rating,
                         G.iframe,

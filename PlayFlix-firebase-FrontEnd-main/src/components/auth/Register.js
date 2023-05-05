@@ -1,28 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
-export const Register = () => {
+
+export const Register = ({setUserState, setUserCheck}) => {
   const [user, setUser] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    uid: "",
-    type: "User",
+    email: "",    
     password: "",
-    bio: "",
-    profileImg: "",
   });
+  
   let navigate = useNavigate();
-
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate);
-    const newUser = localUser.uid
-    await postToSQLDB(newUser);
+    emailAuth.register(user, navigate, setUserState, setUserCheck)
   };
 
   const updateUser = (evt) => {
@@ -32,25 +25,10 @@ export const Register = () => {
   };
 
 
-  const localUser = () => {
-    return JSON.parse(localStorage.getItem("capstone_user"))
-  }
-
-  const postToSQLDB = async (localUser) => {
-    user.uid = localUser
-    await fetch("https://localhost:7215/api/Users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
-  };
-
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
     
-    googleAuth.signInRegister(navigate);
+    googleAuth.signInRegister(navigate, setUserState, setUserCheck);
 
   };
 
@@ -58,30 +36,6 @@ export const Register = () => {
     <main style={{ textAlign: "center" }}>
       <form className="form--login" onSubmit={handleRegister}>
         <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
-        <fieldset>
-          <label htmlFor="firstName">First Name</label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="firstName"
-            className="form-control"
-            placeholder="Enter your first name"
-            required
-            autoFocus
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="lastName"
-            className="form-control"
-            placeholder="Enter your last name"
-            required
-            autoFocus
-          />
-        </fieldset>
         <fieldset>
           <label htmlFor="email"> Email address </label>
           <input
@@ -91,6 +45,7 @@ export const Register = () => {
             className="form-control"
             placeholder="Email address"
             required
+            autoFocus
           />
         </fieldset>
         <fieldset>
@@ -106,31 +61,7 @@ export const Register = () => {
           />
         </fieldset>
         <fieldset>
-          <label htmlFor="bio">Bio</label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="bio"
-            className="form-control"
-            placeholder="Tell us about yourself"
-            required
-            autoFocus
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="profileImg">Profile Image</label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="profileImg"
-            className="form-control"
-            placeholder="Image URL goes here"
-            required
-            autoFocus
-          />
-        </fieldset>
-        <fieldset>
-          <button type="submit" onClick={handleRegister}> Register </button>
+          <button type="submit"> Register </button>
         </fieldset>
       </form>
       <h2>Register With Google?</h2>
