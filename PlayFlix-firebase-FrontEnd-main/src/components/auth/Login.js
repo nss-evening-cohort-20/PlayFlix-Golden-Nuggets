@@ -9,7 +9,7 @@ import logoBackground from "../img/logoBackground.png"
 import GoogleButton from 'react-google-button'
 
 
-export const Login = () => {
+export const Login = ({setUserState, setUserCheck}) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -25,12 +25,12 @@ export const Login = () => {
   // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
     e.preventDefault();
-    emailAuth.signIn(login, navigate);
+    emailAuth.signIn(login, navigate, setUserState, setUserCheck);
   };
 
   // Login with Google
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate);
+    googleAuth.signInRegister(navigate, setUserState, setUserCheck);
   };
 
   return (
@@ -86,7 +86,7 @@ export const Login = () => {
       {/* *<h2>Login With Google?</h2>*\ */}
       <GoogleButton
   type="light" // can be light or dark
-  onClick={() => { console.log('Google button clicked') }}/>
+  onClick={() => { onSubmitLoginGoogle() }}/>
       </section>
       
     </main>
