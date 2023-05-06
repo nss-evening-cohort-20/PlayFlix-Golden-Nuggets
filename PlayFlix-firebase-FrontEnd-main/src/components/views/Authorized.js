@@ -1,10 +1,11 @@
+import { getAuth } from "firebase/auth";
 import { Navigate, useLocation } from "react-router-dom";
 
 
-export const Authorized = ({ children, userState, userCheck }) => {
+export const Authorized = ({ children, userCheck }) => {
   const location = useLocation();
-
-  if (/*sessionStorage.getItem("PlayFlix_user")*/ userState.type && userCheck === true ) {
+  
+  if (userCheck === true) {
     return children;
   } else {
     return (

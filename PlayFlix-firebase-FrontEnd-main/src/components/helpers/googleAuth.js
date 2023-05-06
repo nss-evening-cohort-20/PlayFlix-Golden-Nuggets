@@ -50,16 +50,15 @@ export const googleAuth = {
     });
   },
   // Sign out a user
-  signOut: function(navigate, setUserState, setUserCheck) {
+  signOut: function(navigate,  setUserCheck) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Remove user from localStorage
-        setUserState({})
         setUserCheck(false)
         //sessionStorage.removeItem("PlayFlix_user");
         // Navigate us back home
-        navigate("/");
+        navigate("/login");
         console.log("Sign Out Success!");
       })
       .catch((error) => {

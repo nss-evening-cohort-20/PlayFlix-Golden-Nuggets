@@ -5,11 +5,10 @@ import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
 import PlayFlix_Logo from "../img/PlayFlix_Logo.png";
-import logoBackground from "../img/logoBackground.png" 
 import GoogleButton from 'react-google-button'
 
 
-export const Login = ({setUserState, setUserCheck}) => {
+export const Login = ({setUserCheck}) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -25,12 +24,12 @@ export const Login = ({setUserState, setUserCheck}) => {
   // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
     e.preventDefault();
-    emailAuth.signIn(login, navigate, setUserState, setUserCheck);
+    emailAuth.signIn(login, navigate, setUserCheck);
   };
 
   // Login with Google
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate, setUserState, setUserCheck);
+    googleAuth.signInRegister(navigate, setUserCheck);
   };
 
   return (

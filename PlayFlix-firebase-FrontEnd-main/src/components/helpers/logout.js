@@ -5,13 +5,12 @@ import { emailAuth } from "./emailAuth";
 // other methods may work for both.
 
 export const logout = {
-  logout: function(navigate, setUserState, setUserCheck, userCheck, userState) {
+  logout: function(navigate, setUserState, setUserCheck, userCheck) {
     // const userRecord = JSON.parse(sessionStorage.getItem("PlayFlix_user"));
-    const userRecord = userState
-    if (userRecord?.type === "google" && userCheck === true) {
+    if ( userCheck === true) {
       googleAuth.signOut(navigate, setUserState, setUserCheck);
-    } else if (userRecord?.type === "email" && userCheck === true) {
-      emailAuth.signOut(navigate, setUserState, setUserCheck);
-    }
+    } //else if (userRecord?.type === "email" && userCheck === true) {
+      //emailAuth.signOut(navigate, setUserState, setUserCheck);
+    //}
   },
 };
