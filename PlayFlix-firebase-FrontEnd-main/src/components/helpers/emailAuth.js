@@ -4,6 +4,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  setPersistence,
+  browserSessionPersistence,
+  SignInMethod,
 } from "firebase/auth";
 
 const _apiUrl = "https://localhost:7215/api"
@@ -17,7 +20,7 @@ export const doesUserExist = async (firebaseUserId) => {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  }).then(resp => resp.json()))
+  }).then(resp => resp.json())).catch((error) => console.log(error))
   
 }
 
@@ -31,7 +34,7 @@ export const getToken = async () => {
   return currentUser.getIdToken();
 };
 
-export const getUserFromDB = async (firebaseUserId, setUserState, setUserCheck) => {
+export const getUserFromDB = async (firebaseUserId, setUserCheck) => {
   const token = await getToken();
   const get = {
     method: "GET",
@@ -40,14 +43,12 @@ export const getUserFromDB = async (firebaseUserId, setUserState, setUserCheck) 
     }
   }
   const request = await fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, get)
-  const response = await request.json()
-  //sessionStorage.setItem("PlayFlix_user", JSON.stringify(await response))
-  setUserState(await response);
-  setUserCheck(true);
+  const response = await request.json().then(() => {setUserCheck(true)});
+  
   
 }
 
-export const postToSQLDB = async(userObj, setUserState, setUserCheck) => {
+export const postToSQLDB = async(userObj, setUserCheck) => {
   const token = await getToken();
   const post = {
     method: "POST",
@@ -58,14 +59,13 @@ export const postToSQLDB = async(userObj, setUserState, setUserCheck) => {
     body: JSON.stringify(userObj)
   }
   const req = await fetch(`${_apiUrl}/Users`, post);
-  const resp = await req.json()
-  setUserState(await resp)
-  setUserCheck(true)
+  const resp = await req.json().then(() => {setUserCheck(true)});
+  
 }
 
 export const emailAuth = {
   // Register New User
-  register: function(userObj, navigate, setUserState, setUserCheck) {
+  register: function(userObj, navigate, setUserCheck) {
     const auth = getAuth();
     const userAuth = {}; 
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
@@ -80,18 +80,13 @@ export const emailAuth = {
                   //creates new user and pushes uid to local database need to figure out the bearer token thing since it returns a 401
                   userObj.uid = userCredential.user.uid;
                   userObj.type = userAuth.type;
-                  postToSQLDB(userObj, setUserState, setUserCheck).then(() => navigate("/"));  
+                  postToSQLDB(userObj, setUserCheck).then(() => emailAuth.signIn(userObj, navigate, setUserCheck));  
               } else {
                 // if this is CREATING a user and checks to see if it exists already why would it store in localstorage?
                 alert("User already exists", navigate("/login"))
                 // Navigate us back to home
               }
             })
-          },
-          function(error) {
-            console.log("Email Register Name Error");
-            console.log("error code", error.code);
-            console.log("error message", error.message);
           }
         )
       .catch((error) => {
@@ -101,29 +96,28 @@ export const emailAuth = {
       });
   },
   // Sign in existing user
-  signIn: function(userObj, navigate, setUserState, setUserCheck) {
+  signIn: function(userObj, navigate, setUserCheck) {
     return new Promise((res) => {
       const auth = getAuth();
       const existingUser = {};
-      signInWithEmailAndPassword(auth, userObj.email, userObj.password)
-        .then((SignInResponse) => {
-          existingUser.email = SignInResponse.user.email;
-          existingUser.uid = SignInResponse.user.uid;
-          existingUser.type = "email";  
-          doesUserExist(SignInResponse.user.uid)
+      setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        const SignInResponse = await signInWithEmailAndPassword(auth, userObj.email, userObj.password);
+        existingUser.email = SignInResponse.user.email;
+        existingUser.uid = SignInResponse.user.uid;
+        existingUser.type = "email";
+        doesUserExist(SignInResponse.user.uid)
           .then((userExists) => {
             if (!userExists) {
-              navigate("/register")
+              navigate("/register");
               this.signOut();
             } else {
-              //gets user from db and sets user in local storage
-              getUserFromDB(existingUser.uid, setUserState, setUserCheck).then(() => {
-                navigate("/")
-              })
+              getUserFromDB(existingUser.uid, setUserCheck).then(() => {
+                navigate("/");
+              });
             }
-          })
-        }
-        )
+          });
+        })
         .catch((error) => {
           console.log("Email SignIn Error");
           console.log("error code", error.code);
@@ -133,15 +127,11 @@ export const emailAuth = {
     });
   },
   // Sign out
-  signOut: function(navigate,setUserState, setUserCheck) {
+  signOut: function(navigate, setUserCheck) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        // Remove the user from localstorage
-        //sessionStorage.removeItem("PlayFlix_user");
-        setUserState({})
         setUserCheck(false)
-        // Navigate us back to home
         navigate("/");
         console.log("Sign Out Success!");
       })

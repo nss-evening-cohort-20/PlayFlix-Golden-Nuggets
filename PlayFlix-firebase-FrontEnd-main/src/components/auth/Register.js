@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 
 
-export const Register = ({setUserState, setUserCheck}) => {
+export const Register = ({setUserCheck}) => {
   const [user, setUser] = useState({
     email: "",    
     password: "",
@@ -15,7 +14,7 @@ export const Register = ({setUserState, setUserCheck}) => {
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate, setUserState, setUserCheck)
+    emailAuth.register(user, navigate, setUserCheck)
   };
 
   const updateUser = (evt) => {
