@@ -1,7 +1,4 @@
-.gameImg {
-    width: 250px;
-    height: 150px;
-}
+
 .games {
     display: flex;
     flex-direction: column;
@@ -14,7 +11,9 @@
 }   
 .container {
     display: flex;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
+    max-width: 100%;
+    margin-left: 70px;
   }
 
   .item {
@@ -22,8 +21,6 @@
     display: block;
     flex: 1 1 0px;
     transition: transform 500ms;
-    width: 250px;
-    height: 150px;
   }
   
   .container:focus-within .item,
@@ -44,8 +41,8 @@
   
   .item img {
     display: block;
-    max-width: 100%;
-    width: 270px;
+    max-width: 95%;
+    width: 300px;
     height: 170px;
   }
 
