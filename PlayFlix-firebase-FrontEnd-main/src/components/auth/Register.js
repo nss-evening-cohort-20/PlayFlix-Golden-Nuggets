@@ -24,14 +24,6 @@ export const Register = ({setUserState, setUserCheck}) => {
     setUser(copy);
   };
 
-
-  // Register with google (same as sign in)
-  const onSubmitLogin = async () => {
-    
-    googleAuth.signInRegister(navigate, setUserState, setUserCheck);
-
-  };
-
   return (
     <main style={{ textAlign: "center" }}>
       <form className="form--login" onSubmit={handleRegister}>
@@ -64,10 +56,6 @@ export const Register = ({setUserState, setUserCheck}) => {
           <button type="submit"> Register </button>
         </fieldset>
       </form>
-      <h2>Register With Google?</h2>
-      <button type="submit" onClick={onSubmitLogin}>
-        Let's Do It!
-      </button>
     </main>
   );
 };

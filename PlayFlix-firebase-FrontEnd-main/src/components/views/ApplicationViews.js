@@ -4,6 +4,7 @@ import { NavBar } from "../navBar/NavBar"
 import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
 import { GamesLeaderBoard } from "../games/GamesLeaderboard";
+import { GamePlay } from "../games/GamesPlay";
 
 export const ApplicationViews = ({navigate, setUserState, setUserCheck, userCheck, userState}) => {
   
@@ -24,6 +25,7 @@ export const ApplicationViews = ({navigate, setUserState, setUserCheck, userChec
           <Route path="/profile" element={<UserProfile/>} />
           <Route path="/favorites" element={<Favorites/>} />
           <Route path="/leaderboard" element={<GamesLeaderBoard/>} />
+          <Route path="/games/play/:gameId" element={<GamePlay/>} />
       </Route>
     </Routes>
     
