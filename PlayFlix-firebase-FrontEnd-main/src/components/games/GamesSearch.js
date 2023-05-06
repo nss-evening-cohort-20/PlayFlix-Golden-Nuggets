@@ -1,7 +1,7 @@
 export const GamesSearch = ({ setterFunction }) => {
     return (
         <div>
-            <label for="gameInput"> Input game here</label>
+            <label htmlFor="gameInput"> Input game here</label>
             <input
                 onChange={
                     (changeEvent) => {
