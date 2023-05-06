@@ -13,7 +13,8 @@ export const googleAuth = {
   // Works to sign in AND register a user
   signInRegister: function(navigate, setUserState, setUserCheck) {
     return new Promise((res) => {
-      const provider = new GoogleAuthProvider(); provider.setCustomParameters({ prompt: 'select_account' })
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' })
       const auth = getAuth();
       const userObj = {};
       signInWithPopup(auth, provider)
