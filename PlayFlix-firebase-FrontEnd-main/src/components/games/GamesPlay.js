@@ -22,15 +22,11 @@ useEffect(
 
 return <>
 <section>
-    <h1>hello world</h1>
-    <div>
-        {game?.title}
-    </div>
+    <h1>{game?.title}</h1>
     <div>
     <iframe src={game.iFrame} width="600" height="450" frameborder="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>
     </div>
 </section>
-
 </>
 
 }
