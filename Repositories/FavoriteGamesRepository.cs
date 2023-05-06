@@ -43,8 +43,6 @@ namespace PlayFlix.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "FavoriteGameId"),
                             GameId = DbUtils.GetInt(reader, "GameId"),
-                            FirstName = DbUtils.GetString(reader, "FirstName"),
-                            LastName = DbUtils.GetString(reader, "LastName"),
                             UId = DbUtils.GetString(reader, "uId"),
                             Games = new Games()
                             {

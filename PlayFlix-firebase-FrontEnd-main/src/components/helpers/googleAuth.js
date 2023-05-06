@@ -5,6 +5,7 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
+  inMemoryPersistence,
 } from "firebase/auth";
 import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
 
@@ -19,7 +20,7 @@ export const googleAuth = {
       provider.setCustomParameters({ prompt: 'select_account' })
       const auth = getAuth();
       const userObj = {};
-      setPersistence(auth, browserSessionPersistence)
+      setPersistence(auth, inMemoryPersistence)
       .then(async () => {
 
         return await signInWithPopup(auth, provider)
@@ -39,6 +40,7 @@ export const googleAuth = {
                 })
               } else {
                 //gets user from db and sets user in local storage
+                sessionStorage.setItem("google-uid", userObj.uid)
                 getUserFromDB(userObj.uid, setUserCheck).then(() => {
                   navigate("/")
                 })
