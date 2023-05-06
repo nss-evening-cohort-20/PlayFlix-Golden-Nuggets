@@ -3,7 +3,7 @@ import "./Game.css"
 import { Link } from "react-router-dom";
 export const Game = ({id, title, img, description, rating, userRating, genre, iFrame}) => {
 return <>
-        <Link to={`/Games/play/${id}`} class="item">
+        <Link to={`/Games/play/${id}`} className="item">
         <img src={img}></img>
         </Link>
 </>
