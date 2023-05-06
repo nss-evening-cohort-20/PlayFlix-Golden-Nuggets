@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const PlayFlix = () => {
-  const [userState, setUserState] = useState({})
   const [userCheck, setUserCheck] = useState(false)
   const navigate = useNavigate();
   
@@ -15,10 +14,8 @@ export const PlayFlix = () => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) =>{
       if(user){
-        setUserState(user)
         setUserCheck(true)
       } else {
-        setUserState({})
         setUserCheck(false)
       }
     })
@@ -32,7 +29,7 @@ export const PlayFlix = () => {
       <Route
         path="*"
         element={
-          <Authorized userCheck={userCheck} userState={userState}>
+          <Authorized userCheck={userCheck}>
             <>
               <ApplicationViews navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} />
             </>

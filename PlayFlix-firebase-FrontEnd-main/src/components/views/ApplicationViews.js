@@ -5,7 +5,7 @@ import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
 import { GamesLeaderBoard } from "../games/GamesLeaderboard";
 
-export const ApplicationViews = ({navigate, setUserState, setUserCheck, userCheck, userState}) => {
+export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
   
 
   return (
@@ -16,7 +16,7 @@ export const ApplicationViews = ({navigate, setUserState, setUserCheck, userChec
         path="/"
         element={
           <>
-          <NavBar navigate={navigate} userState={userState} setUserState={setUserState} userCheck={userCheck} setUserCheck={setUserCheck}/>
+          <NavBar navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck}/>
          <Outlet/>
          </>
         }>
@@ -26,20 +26,6 @@ export const ApplicationViews = ({navigate, setUserState, setUserCheck, userChec
           <Route path="/leaderboard" element={<GamesLeaderBoard/>} />
       </Route>
     </Routes>
-    
-    
-    
-    
-    
-    
-    // <>
-    //   <h1>Test</h1>
-    //   {/* logout button */}
-    //   <button type="submit" onClick={onLogout}>
-    //     Logout
-    //   </button>
-    // </>
-  
-    
+
   );
 };

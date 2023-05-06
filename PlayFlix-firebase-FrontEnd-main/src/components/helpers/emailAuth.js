@@ -87,12 +87,7 @@ export const emailAuth = {
                 // Navigate us back to home
               }
             })
-          },
-          // function(error) {
-          //   console.log("Email Register Name Error");
-          //   console.log("error code", error.code);
-          //   console.log("error message", error.message);
-          // }
+          }
         )
       .catch((error) => {
         console.log("Email Register Error");
@@ -117,7 +112,6 @@ export const emailAuth = {
               navigate("/register");
               this.signOut();
             } else {
-              //gets user from db and sets user in local storage
               getUserFromDB(existingUser.uid, setUserCheck).then(() => {
                 navigate("/");
               });
@@ -133,13 +127,11 @@ export const emailAuth = {
     });
   },
   // Sign out
-  signOut: function(navigate) {
+  signOut: function(navigate, setUserCheck) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        // Remove the user from localstorage
-        
-        // Navigate us back to home
+        setUserCheck(false)
         navigate("/");
         console.log("Sign Out Success!");
       })
