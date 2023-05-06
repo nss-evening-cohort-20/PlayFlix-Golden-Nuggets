@@ -16,6 +16,7 @@ export const googleAuth = {
   signInRegister: function(navigate, setUserCheck) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' })
       const auth = getAuth();
       const userObj = {};
       setPersistence(auth, browserSessionPersistence)
