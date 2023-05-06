@@ -108,82 +108,56 @@ export const GamesList = ({ }) => {
 
     return <>
         <div className="games">
-            <h2>Action</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Action</h2>
+            <div className="container">
                 {
                     actionGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
-                        img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                        img={game.gameImg}/>)
                 }
             </div>
-            <h2>Adventure</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Adventure</h2>
+            <div className="container">
                 {
                     adventureGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
-                        img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                        img={game.gameImg}/>)
                 }
             </div>
-            <h2>Sports</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Sports</h2>
+            <div className="container">
                 {
                     sportsGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
                         img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                        />)
                 }
             </div>
-            <h2>Racing</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Racing</h2>
+            <div className="container">
                 {
                     racingGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
                         img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                        />)
                 }
             </div>
-            <h2>Fighting</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Fighting</h2>
+            <div className="container">
                 {
                     fightingGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
                         img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                         />)
                 }
             </div>
-            <h2>Puzzles</h2>
-            <div className="genreRow">
+            <h2 className="gameGenreTitles">Puzzles</h2>
+            <div className="container">
                 {
                     puzzleGames.map(game => <Game key={`game--${game.id}`}
                         id={game.id}
-                        title={game.title}
                         img={game.gameImg}
-                        description={game.description}
-                        rating={game.rating}
-                        userRating={game.userRating}
-                        genre={game.genre} />)
+                         />)
                 }
             </div>
         </div>
