@@ -24,7 +24,7 @@ return <>
 <section>
     <h1>{game?.title}</h1>
     <div>
-    <iframe src={game.iFrame} width="600" height="450" frameborder="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>
+    <iframe src={game.iFrame} width="600" height="450" frameBorder="no" allowFullScreen={true} webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no"></iframe>
     </div>
 </section>
 </>

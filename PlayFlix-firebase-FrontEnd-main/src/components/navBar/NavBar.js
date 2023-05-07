@@ -6,10 +6,21 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-export const NavBar = ({navigate, setUserCheck, userCheck}) => {
-    const onLogout = () => {
+export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSearchParams, setModalOpen}) => {
+  const onLogout = () => {
         logout.logout(navigate, setUserCheck,  userCheck);
       };
+      
+      const handleClick = () => {
+        return setModalOpen(true)
+      }
+
+      const searchText = (event) => {
+        let stateCopy = {...searchParams}
+        stateCopy = event.target.value;
+        setSearchParams(stateCopy);
+      }
+
   return (
     <>
       {['xxl'].map((expand) => (
@@ -28,21 +39,25 @@ export const NavBar = ({navigate, setUserCheck, userCheck}) => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Nav className="justify-content-start flex-grow-1 pe-3">
                   <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link onClick={() => {onLogout()}} href="">Log Out</Nav.Link>
                   <Nav.Link href="/profile">Profile</Nav.Link>
                   <Nav.Link href="/leaderboard">Leaderboards</Nav.Link>
                   <Nav.Link href="/favorites">Favorites</Nav.Link>
                 </Nav>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Nav.Link onClick={() => {onLogout()}} href="">Log Out</Nav.Link>
+                </Nav>
                 <Form className="d-flex">
                   <Form.Control
+                    onChange={(event) => {searchText(event)}}
+                    value={searchParams}
                     type="search"
-                    placeholder="Search"
+                    placeholder="Search games.."
                     className="me-2"
                     aria-label="Search"
                   />
-                  <Button variant="outline-success">Search</Button>
+                  <Button onClick={() => {handleClick()}} variant="outline-success">Search</Button>
                 </Form>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

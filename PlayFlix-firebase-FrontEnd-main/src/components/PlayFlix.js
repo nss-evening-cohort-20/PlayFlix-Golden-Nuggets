@@ -17,7 +17,7 @@ export const PlayFlix = () => {
       if(user){
         setUserCheck(true)
         auth.currentUser.getIdToken(true).then((token) => {
-          Cookies.set('__session', token, {expires: 8})
+          Cookies.set('__session', token, {expires: 2})
         })
       } else {
         setUserCheck(false)

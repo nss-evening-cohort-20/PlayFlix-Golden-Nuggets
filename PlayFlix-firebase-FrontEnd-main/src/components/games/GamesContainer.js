@@ -1,12 +1,9 @@
-import { useState } from "react"
 import { GamesSearch } from "./GamesSearch"
 import { GamesList } from "./GamesList"
 
-export const GamesContainer = () => {
-    const [searchTerms, setSearchTerms] = useState("")
-
+export const GamesContainer = ({searchParams, modalOpen, setModalOpen}) => {
     return  <>
-        <GamesSearch  setterFunction={setSearchTerms} />
-        <GamesList searchTermState={searchTerms} />
+        <GamesSearch searchParams={searchParams} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+        <GamesList  />
     </>
 }
