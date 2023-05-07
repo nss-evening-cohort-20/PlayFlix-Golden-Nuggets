@@ -5,6 +5,7 @@ import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Cookies from "js-cookie";
 
 export const PlayFlix = () => {
   const [userCheck, setUserCheck] = useState(false)
@@ -15,6 +16,9 @@ export const PlayFlix = () => {
     onAuthStateChanged(auth, (user) =>{
       if(user){
         setUserCheck(true)
+        auth.currentUser.getIdToken(true).then((token) => {
+          Cookies.set('__session', token, {expires: 8})
+        })
       } else {
         setUserCheck(false)
       }
