@@ -10,7 +10,7 @@ export const NavBar = ({navigate, setUserState, setUserCheck, userCheck, userSta
             <ul>
 
                     
-                    <li className="">
+                    <li className="Logout">
                         <button onClick={() => {onLogout()}}>Logout</button>
                     </li>
                     
