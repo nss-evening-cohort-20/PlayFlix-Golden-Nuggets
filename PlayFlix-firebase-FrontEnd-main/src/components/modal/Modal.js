@@ -11,7 +11,7 @@ export const ModalComponent = ({searchParams, modalOpen, setModalOpen}) => {
                 </Modal.Header>
                 <Modal.Body></Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => {
+                    <Button style={{width: "100%"}} variant="primary" size="lg" onClick={() => {
                         handleClose()}}
                     >Save To Favorites</Button>
                 </Modal.Footer>

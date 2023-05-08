@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
 import PlayFlix_Logo from "../img/PlayFlix_Logo.png";
 import GoogleButton from 'react-google-button'
+import { Button, Modal, Form } from "react-bootstrap";
 
 
-export const Login = ({setUserCheck}) => {
+export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal}) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const updateLogin = (evt) => {
     const copy = { ...login };
@@ -27,11 +25,30 @@ export const Login = ({setUserCheck}) => {
     emailAuth.signIn(login, navigate, setUserCheck);
   };
 
+  const handleClose = () => {
+    setRegisterModal(false)
+  }
+  
+  // Register with email and password
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    emailAuth.register(login, navigate, setUserCheck)
+    setRegisterModal(false)
+  };
+
+  const updateUser = (evt) => {
+    const copy = { ...login };
+    copy[evt.target.id] = evt.target.value;
+    setLogin(copy);
+  };
+
   // Login with Google
   const onSubmitLoginGoogle = async () => {
     googleAuth.signInRegister(navigate, setUserCheck);
   };
-
+  const handleModal = () => {
+    return setRegisterModal(true)
+  }
   return (
     
     <div className="background">
@@ -79,9 +96,10 @@ export const Login = ({setUserCheck}) => {
             <button type="submit">Sign in</button>
           </fieldset>
         </form>
-        <section className="link--register">Register
-        <Link to="/register"> Here</Link>
-      </section>
+        <Button variant="secondary" onClick={() => {handleModal()}}>Register</Button>
+        {/* <section className="link--register">Register
+        <Link to="/login/:login" onClick={() => {handleModal()}}> Here</Link>
+      </section> */}
       {/* *<h2>Login With Google?</h2>*\ */}
       <GoogleButton
   type="light" // can be light or dark
@@ -89,6 +107,36 @@ export const Login = ({setUserCheck}) => {
       </section>
       
     </main>
+    <Modal style={{background: "#191919"}} show={registerModal} onHide={handleClose}>
+                <Modal.Header closeButton={handleClose}>
+                    <Modal.Title>Register Here</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form >
+                        <Form.Group className="mb-3" controlId="email">
+                            <Form.Label>Email Address</Form.Label>
+                            <Form.Control
+                            type="email" 
+                            placeholder="Enter Email"        
+                            onChange={updateUser}
+                            required
+                            autoFocus />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control 
+                            type="password" 
+                            placeholder="Enter Password"
+                            required
+                            autoFocus
+                            onChange={updateUser} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>                   
+                    <Button style={{width: "100%"}} size="lg" variant="primary" onClick={() => {handleRegister()}}>Register</Button> 
+                </Modal.Footer>
+            </Modal>
     </div>
   );
 };

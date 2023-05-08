@@ -1,14 +1,16 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
-import { Login } from "./auth/Login";
-import { Register } from "./auth/Register";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {Register} from "./auth/Register"
 import Cookies from "js-cookie";
+import { LoginContainer } from "./auth/LoginContainer";
+import { RegisterModal } from "./modal/RegisterModal";
 
 export const PlayFlix = () => {
   const [userCheck, setUserCheck] = useState(false)
+  const [registerModal, setRegisterModal] = useState(false)
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -27,9 +29,24 @@ export const PlayFlix = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<Login userCheck={userCheck} setUserCheck={setUserCheck} />} />
-      <Route path="/register" element={<Register userCheck={userCheck} setUserCheck={setUserCheck} />} />
-
+      <Route path="/login" element={<LoginContainer navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} registerModal={registerModal} setRegisterModal={setRegisterModal} />} />
+      {/* <Route path="/register" element={<Register
+          navigate={navigate}
+          userCheck={userCheck} 
+          setUserCheck={setUserCheck} 
+          registerModal={registerModal} 
+          setRegisterModal={setRegisterModal}
+          />}
+        />
+        <Route path="/register/:register" element={
+          <RegisterModal 
+            navigate={navigate}
+            userCheck={userCheck} 
+            setUserCheck={setUserCheck} 
+            registerModal={registerModal} 
+            setRegisterModal={setRegisterModal}
+          />
+        } /> */}
       <Route
         path="*"
         element={
