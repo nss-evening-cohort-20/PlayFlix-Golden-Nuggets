@@ -1,4 +1,4 @@
-import { ModalComponent } from "../modal/Modal"
+import { ModalComponent } from "../modal/SearchModal"
 
 export const GamesSearch = ({ searchParams, modalOpen, setModalOpen }) => {
     
