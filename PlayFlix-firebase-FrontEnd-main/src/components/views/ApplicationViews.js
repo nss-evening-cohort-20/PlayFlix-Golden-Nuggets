@@ -29,6 +29,7 @@ export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
           <Route path="/favorites" element={<Favorites/>} />
           <Route path="/leaderboard" element={<GamesLeaderBoard/>} />
           <Route path="/games/play/:gameId" element={<GamePlay/>} />
+          <Route path="/favorites" element={<Favorites/> } />
       </Route>
     </Routes>
 
