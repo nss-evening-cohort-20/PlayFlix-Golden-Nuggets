@@ -42,7 +42,7 @@ namespace PlayFlix.Controllers
             var user = _userRepository.GetByFirebaseId(uid);
             if (user == null)
             {
-                return Ok(false);
+                return NotFound();
             }
             return Ok(user);
         }
@@ -51,6 +51,7 @@ namespace PlayFlix.Controllers
         [Authorize, HttpPost]
         public IActionResult Post(User user)
         {
+
             _userRepository.Add(user);
             return CreatedAtAction("Get", new { id = user.Id }, user);
         }

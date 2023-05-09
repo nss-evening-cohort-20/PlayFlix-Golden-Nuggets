@@ -183,6 +183,57 @@ namespace PlayFlix.Repositories
                 }
             }
         }
+
+        public List<Games> Search(string game)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    var query =
+                        @"WITH AvgRating AS (
+	                        SELECT gameId
+	                        ,AVG(RG.rating) as Avg_Rating
+	                        FROM RatedGames as RG
+	                        GROUP by gameId)
+	                        SELECT
+	                        G.[Id]
+	                        ,G.[Title]
+	                        ,G.[Description]
+	                        ,Avg_Rating
+	                        ,GN.[genreType]
+	                        ,G.[GameImg]
+	                        ,G.[Rating]
+                            ,G.[iFrame]
+	                        FROM Games AS G
+	                        LEFT JOIN AvgRating as AVGR ON AVGR.gameId = G.Id
+	                        JOIN genre as GN on GN.id = G.Genre
+                            WHERE G.Title LIKE @Title";
+                    cmd.CommandText = query;
+                    DbUtils.AddParameter(cmd, "@Title", $"%{game}%");
+                    var reader = cmd.ExecuteReader();
+
+                    var games = new List<Games>();
+                    while (reader.Read())
+                    {
+                        games.Add(new Games()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Title = DbUtils.GetString(reader, "Title"),
+                            Description = DbUtils.GetString(reader, "Description"),
+                            Rating = DbUtils.GetNullableInt(reader, "Avg_Rating"),
+                            Genre = DbUtils.GetString(reader, "genreType"),
+                            GameImg = DbUtils.GetString(reader, "GameImg"),
+                            iFrame = DbUtils.GetString(reader, "iFrame")
+                        });                          
+                    }
+                    reader.Close();
+
+                    return games;
+                }
+            }
+        }
     }
 }
 

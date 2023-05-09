@@ -5,14 +5,22 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { searchGames } from "../../ApiKeys";
 
-export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSearchParams, setModalOpen}) => {
+export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSearchParams, setReturnedGames, setModalOpen}) => {
   const onLogout = () => {
         logout.logout(navigate, setUserCheck,  userCheck);
-      };
-      
-      const handleClick = () => {
-        return setModalOpen(true)
+      };   
+  
+      const searchGames = async (searchParams) => {
+        const req = await fetch(`https://localhost:7215/api/Games/search?query=${searchParams}`);
+        const resp = await req.json();
+        return await resp
+      }
+  const handleClick = async () => {
+        const searchedGames = await searchGames(searchParams)
+    setReturnedGames(searchedGames)
+    setModalOpen(true)
       }
 
       const searchText = (event) => {

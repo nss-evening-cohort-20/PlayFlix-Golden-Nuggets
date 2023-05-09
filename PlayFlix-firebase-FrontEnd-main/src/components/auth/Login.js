@@ -26,6 +26,7 @@ export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal})
   };
 
   const handleClose = () => {
+    navigate("/login")
     setRegisterModal(false)
   }
   
@@ -47,7 +48,7 @@ export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal})
     googleAuth.signInRegister(navigate, setUserCheck);
   };
   const handleModal = () => {
-    return setRegisterModal(true)
+    navigate("/register")
   }
   return (
     
@@ -97,17 +98,13 @@ export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal})
           </fieldset>
         </form>
         <Button variant="secondary" onClick={() => {handleModal()}}>Register</Button>
-        {/* <section className="link--register">Register
-        <Link to="/login/:login" onClick={() => {handleModal()}}> Here</Link>
-      </section> */}
-      {/* *<h2>Login With Google?</h2>*\ */}
       <GoogleButton
   type="light" // can be light or dark
   onClick={() => { onSubmitLoginGoogle() }}/>
       </section>
       
     </main>
-    <Modal style={{background: "#191919"}} show={registerModal} onHide={handleClose}>
+    <Modal show={registerModal} onHide={handleClose}>
                 <Modal.Header closeButton={handleClose}>
                     <Modal.Title>Register Here</Modal.Title>
                 </Modal.Header>
@@ -136,7 +133,7 @@ export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal})
                 <Modal.Footer>                   
                     <Button style={{width: "100%"}} size="lg" variant="primary" onClick={() => {handleRegister()}}>Register</Button> 
                 </Modal.Footer>
-            </Modal>
+      </Modal>
     </div>
   );
 };

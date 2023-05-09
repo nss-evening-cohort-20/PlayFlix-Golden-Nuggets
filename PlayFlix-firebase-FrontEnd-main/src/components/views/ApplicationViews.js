@@ -10,6 +10,7 @@ import { useState } from "react";
 export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
   const[searchParams, setSearchParams] = useState("")
   const[modalOpen, setModalOpen] = useState(false)
+  const [returnedGames, setReturnedGames] = useState([])
   
 
   return (
@@ -20,11 +21,18 @@ export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
         path="/"
         element={
           <>
-          <NavBar navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} setSearchParams={setSearchParams} searchParams={searchParams} setModalOpen={setModalOpen}/>
+          <NavBar navigate={navigate}
+            userCheck={userCheck} 
+            setUserCheck={setUserCheck} 
+            setSearchParams={setSearchParams} 
+            searchParams={searchParams} 
+            setModalOpen={setModalOpen}
+            returnedGames={returnedGames}
+            setReturnedGames={setReturnedGames}/>
          <Outlet/>
          </>
         }>
-          <Route path="/" element={<GamesContainer searchParams={searchParams} modalOpen={modalOpen} setModalOpen={setModalOpen}/>} />
+          <Route path="/" element={<GamesContainer searchParams={searchParams} modalOpen={modalOpen} returnedGames={returnedGames} setReturnedGames={setReturnedGames} setModalOpen={setModalOpen}/>} />
           <Route path="/profile" element={<UserProfile/>} />
           <Route path="/favorites" element={<Favorites/>} />
           <Route path="/leaderboard" element={<GamesLeaderBoard/>} />
