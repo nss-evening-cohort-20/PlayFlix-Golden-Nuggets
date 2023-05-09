@@ -3,8 +3,9 @@ import { GamesContainer } from "../games/GamesContainer"
 import { NavBar } from "../navBar/NavBar"
 import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
-import { GamesLeaderBoard } from "../games/GamesLeaderboard";
+
 import { GamePlay } from "../games/GamesPlay";
+import { GamesLeaderBoard } from "../games/GamesLeaderBoard/Leaderboard";
 
 export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
   
@@ -24,7 +25,7 @@ export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
           <Route path="/" element={<GamesContainer/>} />
           <Route path="/profile" element={<UserProfile/>} />
           <Route path="/favorites" element={<Favorites/>} />
-          <Route path="/leaderboard" element={<GamesLeaderBoard/>} />
+          <Route path="/leaderboard/" element={<GamesLeaderBoard/>} />
           <Route path="/games/play/:gameId" element={<GamePlay/>} />
           <Route path="/favorites" element={<Favorites/> } />
       </Route>
