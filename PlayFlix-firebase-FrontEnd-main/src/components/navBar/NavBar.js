@@ -1,4 +1,5 @@
 import { logout } from "../helpers/logout";
+import "./NavBar.css"
 
 export const NavBar = ({navigate, setUserState, setUserCheck, userCheck, userState}) => {
     
@@ -11,7 +12,10 @@ export const NavBar = ({navigate, setUserState, setUserCheck, userCheck, userSta
 
                     
                     <li className="">
+                        <div className="logout">
+
                         <button onClick={() => {onLogout()}}>Logout</button>
+                        </div>
                     </li>
                     
 
