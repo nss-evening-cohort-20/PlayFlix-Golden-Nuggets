@@ -1,6 +1,7 @@
+import { Button, Modal } from "@mui/material/";
 import { useState, useEffect } from "react";
-
 import { Game } from "./Game";
+import { ActiveGameModal } from "../modal/ActiveGameModal";
 
 export const GamesList = ({}) => {
   const [games, setGames] = useState([]);
@@ -30,6 +31,14 @@ export const GamesList = ({}) => {
     genreGames[genre] = games.filter((game) => game.genre === genre);
   });
 
+  const [selectedGame, setClickedGame] = useState(null);
+
+  const onGameClick = (id) => {
+    const clickedGame = games.find((game) => game.id === id);
+    console.log(clickedGame);
+    setClickedGame(clickedGame);
+  };
+
   return (
     <>
       <div className="games">
@@ -39,15 +48,21 @@ export const GamesList = ({}) => {
             <div className="container">
               {genreGames[genre].map((game) => (
                 <Game
+                  onGameClick={onGameClick}
                   key={`game--${game.id}`}
-                  id={game.id}
-                  img={game.gameImg}
+                  game={game}
                 />
               ))}
             </div>
           </div>
         ))}
       </div>
+      {selectedGame && (
+        <ActiveGameModal
+          game={selectedGame}
+          closeModal={() => setClickedGame(null)}
+        />
+      )}
     </>
   );
 };
