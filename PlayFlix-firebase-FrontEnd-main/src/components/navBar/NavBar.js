@@ -12,16 +12,22 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
         logout.logout(navigate, setUserCheck,  userCheck);
       };   
   
-      const searchGames = async (searchParams) => {
-        const req = await fetch(`https://localhost:7215/api/Games/search?query=${searchParams}`);
-        const resp = await req.json();
-        return await resp
-      }
+  const searchGames = async (searchParams) => {
+          
+      const req = await fetch(`https://localhost:7215/api/Games/search?query=${searchParams}`);
+      const resp = await req.json();
+      return await resp
+  }
   const handleClick = async () => {
-        const searchedGames = await searchGames(searchParams)
-    setReturnedGames(searchedGames)
-    setModalOpen(true)
+    try {
+      const searchedGames = await searchGames(searchParams)
+      setReturnedGames(searchedGames)
+      setModalOpen(true)
+      
+      } catch (error) {
+      console.log(error)
       }
+    }
 
       const searchText = (event) => {
         let stateCopy = {...searchParams}
@@ -32,7 +38,7 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
   return (
     <>
       {['xxl'].map((expand) => (
-        <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+        <Navbar key={expand} fixed="top" bg="dark" variant="dark" expand={expand} className="mb-3">
           <Container fluid>
             <Navbar.Brand href="#">PlayFlix</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
