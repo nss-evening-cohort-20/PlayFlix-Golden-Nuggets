@@ -2,11 +2,10 @@ import Cookies from "js-cookie";
 import { Navigate, useLocation } from "react-router-dom";
 
 
-export const Authorized = ({ children, userCheck }) => {
+export const Authorized = ({ children, userCheck, auth }) => {
   const location = useLocation();
   const user = sessionStorage.getItem("firebase:authUser:AIzaSyCBSUB6tbhxaGfVsvX5_sBEo2E9HzWNbJg:[DEFAULT]")
-  const userCookie = Cookies.get('__session');
-  if (user || userCookie) {
+  if (user) {
     return children
   } else {
     return (

@@ -99,6 +99,36 @@ namespace PlayFlix.Repositories
                 }
             }
         }
+        public List<AddFavoriteGame> CheckIfAdded(int id) 
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    SELECT id, gameId, userId
+                    FROM favoriteGames
+                    WHERE userId = @userId";
+
+                    DbUtils.AddParameter(cmd, "@userId", id);
+                    var reader = cmd.ExecuteReader();
+                    var games = new List<AddFavoriteGame>();
+                    while(reader.Read())
+                    {
+                        games.Add(new AddFavoriteGame()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            GameId = DbUtils.GetInt(reader, "gameId"),
+                            UserId = DbUtils.GetInt(reader, "userId")
+                        });
+                    }
+                    reader.Close();
+
+                    return games;
+                }
+            }
+        }
     }
 }
 

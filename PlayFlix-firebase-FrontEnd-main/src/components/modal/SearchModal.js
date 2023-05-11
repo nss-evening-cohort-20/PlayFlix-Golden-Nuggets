@@ -3,8 +3,11 @@ import { Button, Card, Modal, Row, Col, ListGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export const ModalComponent = ({ modalOpen, setModalOpen, setReturnedGames, returnedGames, searchParams }) => {
-    const [addToFavorites, setAddToFavorites] = useState({})
-    const navigate = useNavigate()
+    const userId = sessionStorage.getItem("userId")
+    const [addToFavorites, setAddToFavorites] = useState({
+        gameId: 0,
+        userId: 0
+    })
     const [games, setGames] = useState([])
     const handleClose = () => {
         setModalOpen(false)
@@ -12,21 +15,21 @@ export const ModalComponent = ({ modalOpen, setModalOpen, setReturnedGames, retu
 
     }
 
-    const addToFaveDB = async () => {
-        const toDbObj = {
-            gameId: addToFavorites.id,
-            userId: 1
-        }
+    
+
+    const addToFaveDB = async (toDbObj) => {
+        const saveDataObj = toDbObj
         const post = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(toDbObj)
+            body: JSON.stringify(saveDataObj)
         }
         const req = await fetch(`https://localhost:7215/api/FavoriteGames`, post)
         const resp = await req.json()
-        navigate("/")
+        const respJson = resp
+        return setModalOpen(false)
     }
 
     useEffect(() => {
@@ -44,9 +47,13 @@ export const ModalComponent = ({ modalOpen, setModalOpen, setReturnedGames, retu
     const handleClick = (game, gameId) => {
        const addToFave = games.find((game) => {
             return game.id === gameId
-        })
-        setAddToFavorites(addToFave)
-        addToFaveDB()
+       })
+        const toDbObj = {
+            userId: parseInt(userId),
+            gameId: addToFave.id
+        }
+        setAddToFavorites(toDbObj)
+        addToFaveDB(toDbObj)
     }
 
     return (

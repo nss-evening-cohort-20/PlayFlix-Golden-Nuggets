@@ -131,7 +131,7 @@ export const Login = ({navigate, setUserCheck, registerModal, setRegisterModal})
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>                   
-                    <Button style={{width: "100%"}} size="lg" variant="primary" onClick={() => {handleRegister()}}>Register</Button> 
+                    <Button style={{width: "100%"}} size="lg" variant="primary" onClick={(e) => {handleRegister(e)}}>Register</Button> 
                 </Modal.Footer>
       </Modal>
     </div>

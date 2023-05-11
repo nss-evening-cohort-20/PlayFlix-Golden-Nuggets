@@ -36,13 +36,11 @@ export const googleAuth = {
             doesUserExist(userCredential.user.uid)
             .then((userExists) => {
               if(!userExists) {
-                postToSQLDB(userObj, setUserCheck).then(() => {
-                  navigate("/")
-                })
+               return postToSQLDB(userObj, setUserCheck).then(() => {navigate("/")})
               } else {
                 //gets user from db and sets user in local storage
                 sessionStorage.setItem("google-uid", userObj.uid)
-                getUserFromDB(userObj.uid, setUserCheck).then(() => {
+                return getUserFromDB(userObj.uid, setUserCheck).then(() => {
                   navigate("/")
                 })
                 //navigates to logged in page
@@ -66,6 +64,7 @@ export const googleAuth = {
       .then(() => {
         Cookies.remove(`__session`)
         setUserCheck(false)
+        sessionStorage.clear();
         navigate("/login");
         console.log("Sign Out Success!");
       })

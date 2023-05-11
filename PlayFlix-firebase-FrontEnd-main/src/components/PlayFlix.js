@@ -11,9 +11,9 @@ export const PlayFlix = () => {
   const [userCheck, setUserCheck] = useState(false)
   const [registerModal, setRegisterModal] = useState(false)
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserCheck(true)
@@ -43,7 +43,7 @@ export const PlayFlix = () => {
       <Route
         path="*"
         element={
-          <Authorized userCheck={userCheck}>
+          <Authorized userCheck={userCheck} auth={auth}>
             <>
               <ApplicationViews navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} />
             </>
