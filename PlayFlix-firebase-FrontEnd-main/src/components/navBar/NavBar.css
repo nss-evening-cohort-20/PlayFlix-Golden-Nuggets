@@ -1,0 +1,10 @@
+button{
+    display: flex;
+   color:white;
+   border-radius: .6rem;
+   align-items: right;
+ background-color: red;
+ padding: .3rem;
+margin-left: 110rem;
+
+}
