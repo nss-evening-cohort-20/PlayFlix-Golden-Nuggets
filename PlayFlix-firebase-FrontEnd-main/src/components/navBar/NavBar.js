@@ -13,8 +13,8 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
       };   
   
   const searchGames = async (searchParams) => {
-          
-      const req = await fetch(`https://localhost:7215/api/Games/search?query=${searchParams}`);
+      const search = searchParams.replace(/\s/g, '')   
+      const req = await fetch(`https://localhost:7215/api/Games/search?query=${search}`);
       const resp = await req.json();
       return await resp
   }
@@ -31,7 +31,7 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
 
       const searchText = (event) => {
         let stateCopy = {...searchParams}
-        stateCopy = event.target.value;
+        stateCopy = event.target.value.replace(/\s/g, '');
         setSearchParams(stateCopy);
       }
 
@@ -71,7 +71,12 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
                     className="me-2"
                     aria-label="Search"
                   />
-                  <Button onClick={() => {handleClick()}} variant="outline-success">Search</Button>
+                  {
+                    searchParams ?
+                      <Button onClick={() => { handleClick() }} variant="outline-success">Search</Button>
+                      :
+                      <Button onClick={() => { handleClick() }} variant="outline-success" disabled>Search</Button>
+                  }
                 </Form>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

@@ -5,7 +5,7 @@ import { FiArrowRightCircle } from "react-icons/fi";
 export const GamesContainer = ({searchParams, modalOpen, setModalOpen, returnedGames, setReturnedGames}) => {
     return  <>
         
-        <GamesList searchTermState={searchTerms} />
+        <GamesList />
         
         <GamesSearch searchParams={searchParams} modalOpen={modalOpen} returnedGames={returnedGames} setReturnedGames={setReturnedGames} setModalOpen={setModalOpen} />
         
