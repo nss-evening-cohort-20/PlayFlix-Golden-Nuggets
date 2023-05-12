@@ -7,11 +7,16 @@ import Cookies from "js-cookie";
 
 export const logout = {
   logout: function(navigate, setUserCheck,) {
-    const user = sessionStorage.getItem("firebase:authUser:AIzaSyCBSUB6tbhxaGfVsvX5_sBEo2E9HzWNbJg:[DEFAULT]")
-    const userCookie = Cookies.get();
-    if (userCookie) {
+    const login = sessionStorage.getItem("loginType")
+    if (login === "google") {
+      sessionStorage.removeItem("uid")
+      sessionStorage.removeItem("loginType")
+      sessionStorage.removeItem("token")
       googleAuth.signOut(navigate, setUserCheck);
-    } else if (user) {
+    } else if (login === "email" ) {
+      sessionStorage.removeItem("uid")
+      sessionStorage.removeItem("loginType")
+      sessionStorage.removeItem("token")
       emailAuth.signOut(navigate, setUserCheck);
     }
   },

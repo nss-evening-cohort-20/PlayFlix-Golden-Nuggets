@@ -4,38 +4,60 @@ import { ApplicationViews } from "./views/ApplicationViews";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, getIdToken } from "firebase/auth";
+
 
 export const PlayFlix = () => {
-  const [userCheck, setUserCheck] = useState(false)
+  const [userCheck, setUserCheck] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) =>{
-      if(user){
-        setUserCheck(true)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getIdToken(user).then((token)=>{sessionStorage.setItem("token", token)})
+        setUserCheck(true);
       } else {
-        setUserCheck(false)
+        setUserCheck(false);
       }
-    })
-  },[])
+    });
+  }, []);
 
   return (
     <Routes>
-      <Route path="/login" element={<Login userCheck={userCheck} setUserCheck={setUserCheck} />} />
-      <Route path="/register" element={<Register userCheck={userCheck} setUserCheck={setUserCheck} />} />
-
-      <Route
-        path="*"
-        element={
-          <Authorized userCheck={userCheck}>
-            <>
-              <ApplicationViews navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} />
-            </>
-          </Authorized>
-        }
-      />
+      {!sessionStorage.getItem("uid") ? (
+        <>
+          <Route
+            path="/login"
+            element={
+              <Login userCheck={userCheck} setUserCheck={setUserCheck} />
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <Register userCheck={userCheck} setUserCheck={setUserCheck} />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Login userCheck={userCheck} setUserCheck={setUserCheck} />
+            }
+          />
+        </>
+      ) : (
+        <Route
+          path="*"
+          element={
+            <ApplicationViews
+              navigate={navigate}
+              userCheck={userCheck}
+              setUserCheck={setUserCheck}
+            />
+          }
+        />
+      )}
     </Routes>
   );
 };
