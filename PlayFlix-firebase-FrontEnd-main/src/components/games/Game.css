@@ -1,22 +1,24 @@
 
-.games {
+/*.games {
     display: flex;
     flex-direction: column;
-}
+}*/
+
 
 .genreRow {
-    display: flex;
-    flex-direction: row;
+  
+ 
 
 }   
 .container {
-    display: flex;
+
     margin-bottom: 50px;
-    max-width: 100%;
+    
     margin-left: 70px;
   }
 
   .item {
+    display: inline-block hidden;
     position: relative;
     display: block;
     flex: 1 1 0px;
@@ -31,7 +33,7 @@
   .item:focus ~ .item,
   .item:hover ~ .item {
     transform: translateX(25%);
-  }
+    }
   
   .container .item:focus,
   .container .item:hover {
@@ -41,7 +43,7 @@
   
   .item img {
     display: block;
-    max-width: 95%;
+   
     width: 300px;
     height: 170px;
   }

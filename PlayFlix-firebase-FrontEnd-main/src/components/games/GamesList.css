@@ -1,0 +1,49 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+:root{
+    --slider-padding: 5rem;
+}
+.games{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px;
+    z-index: -10
+}
+.container{
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    
+    display: flex;
+    transform: translateX(-0%);
+    align-items: center;
+    overflow-x: scroll blue;
+    overflow-y: hidden;
+    white-space: nowrap ;
+}
+
+body{
+    margin: 0;
+}
+
+.left-arrow{
+    color: white;
+    background-color: navy;
+    padding: 2px;
+    z-index: 10;
+    overflow-y: scroll;
+    
+    border: solid white ;
+    }
+.right-arrow{
+    display: block;
+    color: white;
+    overflow-y:scroll ;
+    background-color: navy;
+    padding: 2px;
+    z-index: 10;
+    margin-left: -196rem;
+    border: solid white ;
+    
+    }
