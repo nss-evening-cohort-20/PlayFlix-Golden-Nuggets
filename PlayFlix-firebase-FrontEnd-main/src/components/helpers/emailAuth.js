@@ -7,6 +7,7 @@ import {
   setPersistence,
   browserSessionPersistence,
   SignInMethod,
+  getIdToken,
 } from "firebase/auth";
 
 const _apiUrl = "https://localhost:7215/api"
@@ -26,7 +27,8 @@ export const doesUserExist = async (firebaseUserId) => {
 
 //extract token from firebase response and return it here
 export const getToken = async () => {
-  const auth = getAuth();
+  const auth = await getAuth();
+  console.log({auth})
   const currentUser = auth.currentUser;
   if (!currentUser) {
     throw new Error("Cannot get current user. Did you forget to login?");
@@ -110,9 +112,15 @@ export const emailAuth = {
       setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         const SignInResponse = await signInWithEmailAndPassword(auth, userObj.email, userObj.password);
+        const userAuth = {
+          uid: SignInResponse.user.uid,
+          type: "email"
+          }
         existingUser.email = SignInResponse.user.email;
         existingUser.uid = SignInResponse.user.uid;
         existingUser.type = "email";
+        sessionStorage.setItem("uid", userAuth.uid)
+        sessionStorage.setItem("loginType", userAuth.type)
         doesUserExist(SignInResponse.user.uid)
           .then((userExists) => {
             if (!userExists) {
@@ -138,6 +146,7 @@ export const emailAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
+        sessionStorage.removeItem("uid")
         setUserCheck(false)
         navigate("/");
         sessionStorage.clear();

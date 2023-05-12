@@ -18,6 +18,7 @@
   }
 
   .item {
+    display: inline-block hidden;
     position: relative;
     display: block;
     flex: 1 1 0px;

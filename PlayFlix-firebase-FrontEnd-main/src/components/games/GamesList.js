@@ -1,7 +1,11 @@
+
+import { Button, Modal } from "@mui/material/";
 import { useState, useEffect } from "react";
-import { FiArrowRightCircle, FiArrowLeftCircle  } from "react-icons/fi";
 import { Game } from "./Game";
+import { ActiveGameModal } from "../modal/ActiveGameModal";
+import { FiArrowRightCircle, FiArrowLeftCircle  } from "react-icons/fi";
 import "./GamesList.css"
+
 
 export const GamesList = () => {
   const [games, setGames] = useState([]);
@@ -31,32 +35,40 @@ export const GamesList = () => {
     genreGames[genre] = games.filter((game) => game.genre === genre);
   });
 
-  
+
+  const [selectedGame, setClickedGame] = useState(null);
+
+  const onGameClick = (id) => {
+    const clickedGame = games.find((game) => game.id === id);
+    console.log(clickedGame);
+    setClickedGame(clickedGame);
+  };
 
   return (
-    <div className="games">
-      {genres.map((genre) => (
-        <div key={genre} id={genre}>
-          <h2 className="gameGenreTitles">{genre}</h2>
-          <div className="container">
-            <div className="slider">
-            <FiArrowLeftCircle size = {50} className="left-arrow"/>
-            {genreGames[genre].map((game) => (
-              <Game
-                key={`game--${game.id}`}
-                id={game.id}
-                img={game.gameImg}
-                title={game.title}
-              />
-              )
-              )
-            }
-            <FiArrowRightCircle size = {50}  className="right-arrow"/>
+    <>
+      <div className="games">
+        {genres.map((genre) => (
+          <div key={genre}>
+            <h2 className="gameGenreTitles">{genre}</h2>
+            <div className="container">
+              {genreGames[genre].map((game) => (
+                <Game
+                  onGameClick={onGameClick}
+                  key={`game--${game.id}`}
+                  game={game}
+                />
+              ))}
             </div>
           </div>
-       
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      {selectedGame && (
+        <ActiveGameModal
+          game={selectedGame}
+          closeModal={() => setClickedGame(null)}
+        />
+      )}
+    </>
+
   );
 };

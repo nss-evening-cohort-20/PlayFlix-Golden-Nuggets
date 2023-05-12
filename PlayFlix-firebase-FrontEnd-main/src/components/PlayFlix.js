@@ -2,29 +2,27 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
 import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Cookies from "js-cookie";
 import { LoginContainer } from "./auth/LoginContainer";
+import { getAuth, onAuthStateChanged, getIdToken } from "firebase/auth";
 
 
 export const PlayFlix = () => {
   const [userCheck, setUserCheck] = useState(false)
   const [registerModal, setRegisterModal] = useState(false)
   const navigate = useNavigate();
-  const auth = getAuth();
 
   useEffect(() => {
+    const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUserCheck(true)
-        auth.currentUser.getIdToken(true).then((token) => {
-          Cookies.set('__session', token, { expires: 2 })
-        })
+        getIdToken(user).then((token)=>{sessionStorage.setItem("token", token)})
+        setUserCheck(true);
       } else {
-        setUserCheck(false)
+        setUserCheck(false);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <Routes>
