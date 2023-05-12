@@ -1,11 +1,10 @@
-
 import { Button, Modal } from "@mui/material/";
 import { useState, useEffect } from "react";
 import { Game } from "./Game";
 import { ActiveGameModal } from "../modal/ActiveGameModal";
-import { FiArrowRightCircle, FiArrowLeftCircle  } from "react-icons/fi";
-import "./GamesList.css"
+import { Link } from "react-router-dom";
 
+import "./GamesList.css";
 
 export const GamesList = () => {
   const [games, setGames] = useState([]);
@@ -35,12 +34,10 @@ export const GamesList = () => {
     genreGames[genre] = games.filter((game) => game.genre === genre);
   });
 
-
   const [selectedGame, setClickedGame] = useState(null);
 
   const onGameClick = (id) => {
     const clickedGame = games.find((game) => game.id === id);
-    console.log(clickedGame);
     setClickedGame(clickedGame);
   };
 
@@ -69,6 +66,5 @@ export const GamesList = () => {
         />
       )}
     </>
-
   );
 };
