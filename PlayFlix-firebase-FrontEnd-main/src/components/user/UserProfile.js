@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./UserProfile.css"
-// import "./EditProfile";
+import "./UserProfile.css";
+import { getToken } from "../helpers/emailAuth";
 
 export const UserProfile = () => {
   const navigate = useNavigate();
 
-  // Get user profile from localStorage
-  const localProjectUser = localStorage.getItem("capstone_user");
-  const projectUserObject = JSON.parse(localProjectUser);
+  // Get user ID from localStorage
+  const localUserId = sessionStorage.getItem("uid");
 
   // Set default values for user profile state
   const [userProfile, setUserProfile] = useState({
-    id: projectUserObject.id,
-    uId: projectUserObject.uId,
-    Type: projectUserObject.Type,
-    FirstName: projectUserObject.FirstName,
-    LastName: projectUserObject.LastName,
-    Bio: projectUserObject.Bio,
-    ProfileImg: projectUserObject.ProfileImg
+    id: "",
+    uId: localUserId || "",
+    Type: "",
+    FirstName: "",
+    LastName: "",
+    Bio: "",
+    ProfileImg: "",
   });
+
+  // Fetch user profile from server on component mount
+  useEffect(() => {
+    if (localUserId) {
+        const token = sessionStorage.getItem("token")
+        fetch(`https://localhost:7215/api/Users/uid/${localUserId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((profileArray) => {
+            const ProfileImg = localStorage.getItem("ProfileImg");
+            if (ProfileImg) {
+              profileArray.ProfileImg = ProfileImg;
+            }
+            setUserProfile(profileArray);
+            console.warn(userProfile);
+          })
+          .catch((error) => {
+            console.error("Error fetching profile: ", error);
+          });
+    }
+  }, [localUserId]);
 
   // Handle profile picture selection
   const handleProfileImgSelect = (event) => {
@@ -28,27 +51,13 @@ export const UserProfile = () => {
     reader.readAsDataURL(selectedFile);
     reader.onload = () => {
       const ProfileImg = reader.result;
-      localStorage.setItem("profileImg", ProfileImg); // <-- Save profile picture in local storage
+      localStorage.setItem("profileImg", ProfileImg);
       setUserProfile((prevState) => ({
         ...prevState,
         ProfileImg,
       }));
     };
   };
-
-  // Fetch user profile from server on component mount
-  useEffect(() => {
-    fetch(`'https://localhost:7215/api/Users'${projectUserObject.id}`)
-      .then((response) => response.json())
-      .then((profileArray) => {
-        // Check if profile picture is saved in local storage
-        const ProfileImg = localStorage.getItem("ProfileImg");
-        if (ProfileImg) {
-          profileArray.ProfileImg = ProfileImg;
-        }
-        setUserProfile(profileArray);
-      });
-  }, []);
 
   // Handle save button click
   const handleSaveButtonClick = (event) => {
@@ -58,7 +67,8 @@ export const UserProfile = () => {
 
   // Save user profile to server
   const saveUserProfile = (profile) => {
-    fetch(`'https://localhost:7215/api/Users'${profile.id}`, {
+    fetch(`https://localhost:7215/api/Users?uId=${profile.uId}`, {
+      // modify URL to include uId
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +90,6 @@ export const UserProfile = () => {
         console.error("Error saving profile: ", error);
       });
   };
-
   return (
     <>
       <h3>
@@ -93,57 +102,49 @@ export const UserProfile = () => {
         )}
 
         <h2>Profile Picture:</h2>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleProfileImgSelect}
-        />
+        <input type="file" accept="image/*" onChange={handleProfileImgSelect} />
 
         <h2>Name:</h2>
-            <h2>Name:</h2>
-            <header>{userProfile.FirstName}</header>
-            <header>{userProfile.LastName}</header>
-    
-            <h2>Type:</h2>
-            <div>{userProfile.Type}</div>
-    
-            <h2>Bio:</h2>
-            <div>{userProfile.Bio}</div>
+        <header>{userProfile.FirstName}</header>
+        <header>{userProfile.LastName}</header>
 
-            <h2>Profile Pic</h2>
-            <div>{userProfile.ProfileImg}</div>
-    
-            <button
-              className="btn comment_edit"
-              onClick={() => {
-                navigate(`/EditProfile/${userProfile.id}`);
-              }}
-            >
-              Edit
-            </button>
-            <section>
-              <button
-                className="btn comment_delete"
-                onClick={() => {
-                  navigate(`/DeleteProfile/${userProfile.id}`);
-                }}
-              >
-                Delete
-              </button>
-              <button
-              className="btn comment_save"
-              onClick={() => {
-                navigate(`/UserProfile/${userProfile.id}`);
-              }}
-            >
-              Save
-              </button>
-            </section>
-            <section></section>
-          </article>
-        </>
-      );
-    }
-   
-    
-    
+        <h2>Type:</h2>
+        <div>{userProfile.Type}</div>
+
+        <h2>Bio:</h2>
+        <div>{userProfile.Bio}</div>
+
+        <h2>Profile Pic</h2>
+        <div>{userProfile.ProfileImg}</div>
+
+        <button
+          className="btn comment_edit"
+          onClick={() => {
+            navigate(`/EditProfile/${userProfile.id}`);
+          }}
+        >
+          Edit
+        </button>
+        <section>
+          <button
+            className="btn comment_delete"
+            onClick={() => {
+              navigate(`/DeleteProfile/${userProfile.id}`);
+            }}
+          >
+            Delete
+          </button>
+          <button
+            className="btn comment_save"
+            onClick={() => {
+              navigate(`/UserProfile/${userProfile.id}`);
+            }}
+          >
+            Save
+          </button>
+        </section>
+        <section></section>
+      </article>
+    </>
+  );
+};

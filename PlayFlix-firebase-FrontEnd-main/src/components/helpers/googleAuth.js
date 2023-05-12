@@ -4,9 +4,7 @@ import {
   GoogleAuthProvider,
   signOut,
   setPersistence,
-  browserSessionPersistence,
-  inMemoryPersistence,
-} from "firebase/auth";
+  inMemoryPersistence} from "firebase/auth";
 import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
 
 // SignIn brings up the google sign in pop up AND works
@@ -26,12 +24,15 @@ export const googleAuth = {
         return await signInWithPopup(auth, provider)
           .then((userCredential) => {
             const userAuth = {
-            email: userCredential.user.email,
             uid: userCredential.user.uid,
             type: "google"
             }
             userObj.type = userAuth.type
             userObj.uid = userCredential.user.uid
+            sessionStorage.setItem("uid", userAuth.uid)
+            sessionStorage.setItem("loginType", userAuth.type)
+           
+
             doesUserExist(userCredential.user.uid)
             .then((userExists) => {
               if(!userExists) {
@@ -40,7 +41,6 @@ export const googleAuth = {
                 })
               } else {
                 //gets user from db and sets user in local storage
-                sessionStorage.setItem("google-uid", userObj.uid)
                 getUserFromDB(userObj.uid, setUserCheck).then(() => {
                   navigate("/")
                 })
