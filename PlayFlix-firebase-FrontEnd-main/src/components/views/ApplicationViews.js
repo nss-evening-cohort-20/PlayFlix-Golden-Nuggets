@@ -3,12 +3,11 @@ import { GamesContainer } from "../games/GamesContainer"
 import { NavBar } from "../navBar/NavBar"
 import { UserProfile } from "../user/UserProfile";
 import { Favorites } from "../favorites/Favorites";
-
 import { GamePlay } from "../games/GamesPlay";
 import { GamesLeaderBoard } from "../games/GamesLeaderBoard/Leaderboard";
 
 export const ApplicationViews = ({navigate, setUserCheck, userCheck}) => {
-  
+
 
   return (
     
