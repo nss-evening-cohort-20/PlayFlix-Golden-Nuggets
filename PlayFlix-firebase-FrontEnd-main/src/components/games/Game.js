@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
-import "./Game.css"
+import "./Game.css";
 import { Link } from "react-router-dom";
-export const Game = ({id, title, img, description, rating, userRating, genre, iFrame}) => {
-return <>
-    
-        <Link to={`/Games/play/${id}`} className="item">
-        <img src={img}></img>
-        </Link>
-       
-                
-</>
-}
+
+import { Button, Modal } from "@mui/material/";
+
+export const Game = ({ game, onGameClick }) => {
+  return (
+    <>
+      <div>{game.title}</div>
+      <img src={game.gameImg}></img>
+      <Button
+        onClick={() => onGameClick(game.id)}
+        variant="contained"
+        color="primary"
+      >
+        Open
+      </Button>
+    </>
+  );
+};
+
