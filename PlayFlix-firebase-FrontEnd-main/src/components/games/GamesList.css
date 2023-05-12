@@ -7,25 +7,43 @@
 .games{
     display: flex;
     flex-wrap: wrap;
-    z-index: -100;
+    padding: 2px;
+    z-index: -10
 }
 .container{
     z-index: -1;
     display: flex;
     justify-content: center;
-}
-
-.slider{
+    
     display: flex;
-   flex-grow: 1;
-   z-index: 10;
     transform: translateX(-0%);
     align-items: center;
+    overflow-x: scroll blue;
+    overflow-y: hidden;
+    white-space: nowrap ;
 }
+
 body{
     margin: 0;
 }
 
-.lefft-arrow{
-color: green;
-}
+.left-arrow{
+    color: white;
+    background-color: navy;
+    padding: 2px;
+    z-index: 10;
+    overflow-y: scroll;
+    
+    border: solid white ;
+    }
+.right-arrow{
+    display: block;
+    color: white;
+    overflow-y:scroll ;
+    background-color: navy;
+    padding: 2px;
+    z-index: 10;
+    margin-left: -196rem;
+    border: solid white ;
+    
+    }

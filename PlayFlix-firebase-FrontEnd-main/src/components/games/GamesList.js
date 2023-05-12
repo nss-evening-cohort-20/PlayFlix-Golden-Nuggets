@@ -3,6 +3,7 @@ import { FiArrowRightCircle, FiArrowLeftCircle  } from "react-icons/fi";
 import { Game } from "./Game";
 import "./GamesList.css"
 
+
 export const GamesList = () => {
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
@@ -39,8 +40,8 @@ export const GamesList = () => {
         <div key={genre} id={genre}>
           <h2 className="gameGenreTitles">{genre}</h2>
           <div className="container">
-            <div className="slider">
-            <FiArrowLeftCircle size = {50} className="left-arrow"/>
+            
+            {/* <FiArrowLeftCircle size = {50} className="left-arrow"/> */}
             {genreGames[genre].map((game) => (
               <Game
                 key={`game--${game.id}`}
@@ -51,11 +52,11 @@ export const GamesList = () => {
               )
               )
             }
-            <FiArrowRightCircle size = {50}  className="right-arrow"/>
+            {/* <FiArrowRightCircle size = {50} className="right-arrow"/> */}
             </div>
           </div>
        
-        </div>
+        
       ))}
     </div>
   );
