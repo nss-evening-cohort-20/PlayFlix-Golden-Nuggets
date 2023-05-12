@@ -4,7 +4,8 @@ import {
   GoogleAuthProvider,
   signOut,
   setPersistence,
-  inMemoryPersistence} from "firebase/auth";
+  inMemoryPersistence,
+  browserSessionPersistence} from "firebase/auth";
 import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
 import Cookies from "js-cookie";
 

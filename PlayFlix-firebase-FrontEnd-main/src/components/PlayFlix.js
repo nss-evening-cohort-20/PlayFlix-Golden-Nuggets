@@ -11,9 +11,9 @@ export const PlayFlix = () => {
   const [userCheck, setUserCheck] = useState(false)
   const [registerModal, setRegisterModal] = useState(false)
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
         getIdToken(user).then((token)=>{sessionStorage.setItem("token", token)})

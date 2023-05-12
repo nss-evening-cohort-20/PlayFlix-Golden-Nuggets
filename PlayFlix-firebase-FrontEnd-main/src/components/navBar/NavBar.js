@@ -7,27 +7,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { searchGames } from "../../ApiKeys";
 
-export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSearchParams, setReturnedGames, setModalOpen}) => {
+export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSearchParams, handleClick,}) => {
   const onLogout = () => {
         logout.logout(navigate, setUserCheck,  userCheck);
       };   
-  
-  const searchGames = async (searchParams) => {
-      const search = searchParams.replace(/\s/g, '')   
-      const req = await fetch(`https://localhost:7215/api/Games/search?query=${search}`);
-      const resp = await req.json();
-      return await resp
-  }
-  const handleClick = async () => {
-    try {
-      const searchedGames = await searchGames(searchParams)
-      setReturnedGames(searchedGames)
-      setModalOpen(true)
-      
-      } catch (error) {
-      console.log(error)
-      }
-    }
+
 
       const searchText = (event) => {
         let stateCopy = {...searchParams}
@@ -75,7 +59,7 @@ export const NavBar = ({navigate, setUserCheck, userCheck, searchParams, setSear
                     searchParams ?
                       <Button onClick={() => { handleClick() }} variant="outline-success">Search</Button>
                       :
-                      <Button onClick={() => { handleClick() }} variant="outline-success" disabled>Search</Button>
+                      <Button onClick={() => { handleClick() }} variant="outline-danger" disabled>Search</Button>
                   }
                 </Form>
               </Offcanvas.Body>
