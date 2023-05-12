@@ -35,7 +35,6 @@ export const GamesList = ({}) => {
 
   const onGameClick = (id) => {
     const clickedGame = games.find((game) => game.id === id);
-    console.log(clickedGame);
     setClickedGame(clickedGame);
   };
 
