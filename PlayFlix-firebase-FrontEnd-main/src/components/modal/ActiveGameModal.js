@@ -45,7 +45,7 @@ export const ActiveGameModal = ({ game, closeModal }) => {
 
             <Link
               to={`/Games/play/${game.id}`}
-              target="_blank"
+              // target="_blank"
               className="item"
             >
               <Button variant="contained" color="primary">
