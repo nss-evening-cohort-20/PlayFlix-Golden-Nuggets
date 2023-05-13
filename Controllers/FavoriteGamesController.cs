@@ -30,17 +30,12 @@ namespace PlayFlix.Controllers
             return CreatedAtAction("Get", new { id = game.Id }, game);
         }
 
-        // PUT api/<GamesController>/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, Games games)
-        //{
-        //    if (id != games.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    _favoriteGamesRepository.Update(games);
-        //    return NoContent();
-        //}
+        [HttpGet("{id}")]
+
+        public IActionResult GetByUserId(int id)
+        {
+            return Ok(_favoriteGamesRepository.CheckIfAdded(id));
+        }
 
         // DELETE api/<GamesController>/5
         [HttpDelete("{id}")]

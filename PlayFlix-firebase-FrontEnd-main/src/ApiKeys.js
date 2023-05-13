@@ -8,3 +8,10 @@ export const firebaseConfig = {
   messagingSenderId: "768528677602",
   appId: "1:768528677602:web:d307610a8efad4e4bf3cbb"
 };
+
+export const searchGames = async (searchParams) => {
+  const search = searchParams.replace(/\s/g, '')   
+  const req = await fetch(`https://localhost:7215/api/Games/search?query=${search}`);
+  const resp = await req.json();
+  return await resp
+}

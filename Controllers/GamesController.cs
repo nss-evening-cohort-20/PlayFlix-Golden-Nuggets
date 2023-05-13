@@ -61,5 +61,16 @@ namespace PlayFlix.Controllers
             _gamesRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public IActionResult Search(string query)
+        {
+            var game = _gamesRepository.Search(query);
+            if(game == null)
+            {
+                return NotFound();
+            }
+            return Ok(game);
+        }
     }
 }

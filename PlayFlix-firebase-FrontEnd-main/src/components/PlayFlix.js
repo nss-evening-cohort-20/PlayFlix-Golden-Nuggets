@@ -1,18 +1,19 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
-import { Login } from "./auth/Login";
-import { Register } from "./auth/Register";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { LoginContainer } from "./auth/LoginContainer";
 import { getAuth, onAuthStateChanged, getIdToken } from "firebase/auth";
 
 
 export const PlayFlix = () => {
-  const [userCheck, setUserCheck] = useState(false);
+  const [userCheck, setUserCheck] = useState(false)
+  const [registerModal, setRegisterModal] = useState(false)
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
         getIdToken(user).then((token)=>{sessionStorage.setItem("token", token)})
@@ -25,39 +26,28 @@ export const PlayFlix = () => {
 
   return (
     <Routes>
-      {!sessionStorage.getItem("uid") ? (
-        <>
-          <Route
-            path="/login"
-            element={
-              <Login userCheck={userCheck} setUserCheck={setUserCheck} />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <Register userCheck={userCheck} setUserCheck={setUserCheck} />
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <Login userCheck={userCheck} setUserCheck={setUserCheck} />
-            }
-          />
-        </>
-      ) : (
-        <Route
-          path="*"
-          element={
-            <ApplicationViews
-              navigate={navigate}
-              userCheck={userCheck}
-              setUserCheck={setUserCheck}
-            />
-          }
+      <Route path="/login"
+        element={
+          <LoginContainer navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} registerModal={registerModal} setRegisterModal={setRegisterModal} />} />
+      <Route path="/register" element={
+        <LoginContainer
+          navigate={navigate}
+          userCheck={userCheck}
+          setUserCheck={setUserCheck}
+          registerModal={registerModal}
+          setRegisterModal={setRegisterModal}
         />
-      )}
+      } />
+      <Route
+        path="*"
+        element={
+          <Authorized userCheck={userCheck} auth={auth}>
+            <>
+              <ApplicationViews navigate={navigate} userCheck={userCheck} setUserCheck={setUserCheck} />
+            </>
+          </Authorized>
+        }
+      />
     </Routes>
   );
 };

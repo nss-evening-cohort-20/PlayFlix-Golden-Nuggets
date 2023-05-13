@@ -1,14 +1,25 @@
-export const GamesSearch = ({ setterFunction }) => {
+import { ModalComponent } from "../modal/SearchModal"
+
+
+
+export const GamesSearch = ({ modalOpen, setModalOpen, returnedGames, searchParams, setReturnedGames }) => {
+    
+
     return (
-        <div>
-            <label htmlFor="gameInput"> Input game here</label>
-            <input
-                onChange={
-                    (changeEvent) => {
-                        setterFunction(changeEvent.target.value)
-                    }
-                }
-                type="text" id="gameInput" placeholder="Enter search terms" />
-        </div>
+        <>
+
+
+
+            <ModalComponent
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                setReturnedGames={setReturnedGames}
+                returnedGames={returnedGames}
+                searchParams={searchParams}
+            />
+
+
+
+        </>
     )
 }

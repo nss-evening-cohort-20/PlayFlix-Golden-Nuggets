@@ -4,8 +4,10 @@ import {
   GoogleAuthProvider,
   signOut,
   setPersistence,
-  inMemoryPersistence} from "firebase/auth";
+  inMemoryPersistence,
+  browserSessionPersistence} from "firebase/auth";
 import { doesUserExist, getUserFromDB, postToSQLDB } from "./emailAuth";
+import Cookies from "js-cookie";
 
 // SignIn brings up the google sign in pop up AND works
 // for both signing in AND registering a user
@@ -18,7 +20,7 @@ export const googleAuth = {
       provider.setCustomParameters({ prompt: 'select_account' })
       const auth = getAuth();
       const userObj = {};
-      setPersistence(auth, inMemoryPersistence)
+      setPersistence(auth, browserSessionPersistence)
       .then(async () => {
 
         return await signInWithPopup(auth, provider)
@@ -36,12 +38,11 @@ export const googleAuth = {
             doesUserExist(userCredential.user.uid)
             .then((userExists) => {
               if(!userExists) {
-                postToSQLDB(userObj, setUserCheck).then(() => {
-                  navigate("/")
-                })
+               return postToSQLDB(userObj, setUserCheck).then(() => {navigate("/")})
               } else {
                 //gets user from db and sets user in local storage
-                getUserFromDB(userObj.uid, setUserCheck).then(() => {
+                sessionStorage.setItem("google-uid", userObj.uid)
+                return getUserFromDB(userObj.uid, setUserCheck).then(() => {
                   navigate("/")
                 })
                 //navigates to logged in page
@@ -63,7 +64,9 @@ export const googleAuth = {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
+        Cookies.remove(`__session`)
         setUserCheck(false)
+        sessionStorage.clear();
         navigate("/login");
         console.log("Sign Out Success!");
       })

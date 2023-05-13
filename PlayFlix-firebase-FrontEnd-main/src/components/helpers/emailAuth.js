@@ -45,9 +45,12 @@ export const getUserFromDB = async (firebaseUserId, setUserCheck) => {
     }
   }
   const request = await fetch(`${_apiUrl}/Users/uid/${firebaseUserId}`, get)
-  const response = await request.json().then(() => {setUserCheck(true)});
+  const reqJson = await request.json()
+  const resp = reqJson
+  sessionStorage.setItem("userId", resp.id)
+  return resp
   
-  
+  //return sessionStorage.setItem("userId", JSON.stringify(userId.id))
 }
 
 export const postToSQLDB = async(userObj, setUserCheck) => {
@@ -61,9 +64,13 @@ export const postToSQLDB = async(userObj, setUserCheck) => {
     body: JSON.stringify(userObj)
   }
   const req = await fetch(`${_apiUrl}/Users`, post);
-  const resp = await req.json().then(() => {setUserCheck(true)});
+  const reqJSON = await req.json()
+  const resp = reqJSON
+  sessionStorage.setItem("userId", resp.id)
+  return resp
   
 }
+
 
 export const emailAuth = {
   // Register New User
@@ -82,7 +89,7 @@ export const emailAuth = {
                   //creates new user and pushes uid to local database need to figure out the bearer token thing since it returns a 401
                   userObj.uid = userCredential.user.uid;
                   userObj.type = userAuth.type;
-                  postToSQLDB(userObj, setUserCheck).then(() => emailAuth.signIn(userObj, navigate, setUserCheck));  
+                return  postToSQLDB(userObj, setUserCheck).then(() => emailAuth.signIn(userObj, navigate, setUserCheck));  
               } else {
                 // if this is CREATING a user and checks to see if it exists already why would it store in localstorage?
                 alert("User already exists", navigate("/login"))
@@ -142,6 +149,7 @@ export const emailAuth = {
         sessionStorage.removeItem("uid")
         setUserCheck(false)
         navigate("/");
+        sessionStorage.clear();
         console.log("Sign Out Success!");
       })
       .catch((error) => {
