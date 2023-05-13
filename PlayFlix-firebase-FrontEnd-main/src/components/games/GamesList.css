@@ -1,49 +1,58 @@
-*, *::after, *::before{
+*,
+*::after,
+*::before {
     box-sizing: border-box;
 }
-:root{
+
+:root {
     --slider-padding: 5rem;
+
+
 }
-.games{
+
+.games {
     display: flex;
     flex-wrap: wrap;
     padding: 2px;
     z-index: -10
 }
-.container{
+
+.container {
     z-index: -1;
     display: flex;
-    justify-content: center;
-    
+    justify-content: left;
+    margin-left: 15rem;
     display: flex;
     transform: translateX(-0%);
     align-items: center;
-    overflow-x: scroll blue;
-    overflow-y: hidden;
-    white-space: nowrap ;
+    /* overflow-x: scroll blue;
+    overflow-y: hidden; */
+    white-space: nowrap;
+    width: 100%;
 }
 
-body{
+body {
     margin: 0;
 }
 
-.left-arrow{
+.left-arrow {
     color: white;
     background-color: navy;
     padding: 2px;
     z-index: 10;
     overflow-y: scroll;
-    
-    border: solid white ;
-    }
-.right-arrow{
+
+    border: solid white;
+}
+
+.right-arrow {
     display: block;
     color: white;
-    overflow-y:scroll ;
+    overflow-y: scroll;
     background-color: navy;
     padding: 2px;
     z-index: 10;
     margin-left: -196rem;
-    border: solid white ;
-    
-    }
+    border: solid white;
+
+}
