@@ -1,54 +1,57 @@
-
 /*.games {
     display: flex;
     flex-direction: column;
 }*/
 
 
-.genreRow {
-  
- 
+.genreRow {}
 
-}   
 .container {
 
-    margin-bottom: 50px;
-    
-    margin-left: 70px;
-  }
+  margin-bottom: 50px;
 
-  .item {
-    display: inline-block hidden;
-    position: relative;
-    display: block;
-    flex: 1 1 0px;
-    transition: transform 500ms;
-  }
-  
-  .container:focus-within .item,
-  .container:hover .item {
-    transform: translateX(-25%);
-  }
-  
-  .item:focus ~ .item,
-  .item:hover ~ .item {
-    transform: translateX(25%);
-    }
-  
-  .container .item:focus,
-  .container .item:hover {
-    transform: scale(1.5);
-    z-index: 1;
-  }
-  
-  .item img {
-    display: block;
-   
-    width: 300px;
-    height: 170px;
-  }
+  margin-left: 70px;
+}
 
-  .gameGenreTitles{
-    margin-bottom: 50px;
-    display: block;
-  }
+.item {
+  display: inline-block hidden;
+  position: relative;
+  display: block;
+  flex: 1 1 0px;
+  transition: transform 500ms;
+}
+
+.container:focus-within .item,
+.container:hover .item {
+  transform: translateX(-25%);
+}
+
+.item:focus~.item,
+.item:hover~.item {
+  transform: translateX(25%);
+}
+
+.container .item:focus,
+.container .item:hover {
+  transform: scale(1.5);
+  z-index: 1;
+}
+
+.item img {
+  display: block;
+
+  width: 300px;
+  height: 170px;
+}
+
+.gameGenreTitles {
+  margin-bottom: 50px;
+  display: block;
+}
+
+.iframe {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+
+}

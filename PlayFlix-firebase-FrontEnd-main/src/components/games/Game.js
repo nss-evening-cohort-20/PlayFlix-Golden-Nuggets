@@ -6,15 +6,15 @@ import { Button, Modal } from "@mui/material/";
 
 export const Game = ({ game, onGameClick }) => {
   return (
-    <>
+    game && (
+      <>
+        <div className="item">
+          <Link>
+            <img src={game.gameImg} onClick={() => onGameClick(game.id)}></img>
+          </Link>
+        </div>
 
-      <div className="item">
-        <Link>
-          <img src={game.gameImg} onClick={() => onGameClick(game.id)}></img>
-        </Link>
-      </div>
-
-      {/* <Button
+        {/* <Button
         
 
         variant="contained"
@@ -22,6 +22,7 @@ export const Game = ({ game, onGameClick }) => {
       >
         Open
       </Button> */}
-    </>
+      </>
+    )
   );
 };

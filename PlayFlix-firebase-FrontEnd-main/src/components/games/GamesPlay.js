@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
+import "./Game.css";
 
 function IframeComponent({ iframeString }) {
   return <div dangerouslySetInnerHTML={{ __html: iframeString }} />;
@@ -26,7 +27,7 @@ export const GamePlay = () => {
     <>
       <section>
         <h1>{game?.title}</h1>
-        <IframeComponent iframeString={game.iFrame} />
+        <IframeComponent className="iframe" iframeString={game.iFrame} />
       </section>
     </>
   );
