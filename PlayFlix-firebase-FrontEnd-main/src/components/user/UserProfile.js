@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./UserProfile.css";
 import { getToken } from "../helpers/emailAuth";
 
+// Rest of the code...
+
 export const UserProfile = () => {
   const navigate = useNavigate();
 
@@ -43,6 +45,11 @@ export const UserProfile = () => {
           });
     }
   }, [localUserId]);
+
+    // Log userProfile whenever it changes
+    useEffect(() => {
+      console.log(userProfile);
+    }, [userProfile]);
 
   // Handle profile picture selection
   const handleProfileImgSelect = (event) => {

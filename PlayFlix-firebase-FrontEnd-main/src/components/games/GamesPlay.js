@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { createPortal } from "react-dom";
 import "./Game.css";
 
-function IframeComponent({ iframeString }) {
-  return <div dangerouslySetInnerHTML={{ __html: iframeString }} />;
-}
 export const GamePlay = () => {
   const navigate = useNavigate();
   const { gameId } = useParams();
@@ -27,7 +23,16 @@ export const GamePlay = () => {
     <>
       <section>
         <h1>{game?.title}</h1>
-        <IframeComponent className="iframe" iframeString={game.iFrame} />
+        {game?.iFrame && (
+          <div className="iframe-container">
+            <iframe
+              src={game.iFrame}
+              className="iframe"
+              title={game.title}
+              allowFullScreen
+            />
+          </div>
+        )}
       </section>
     </>
   );

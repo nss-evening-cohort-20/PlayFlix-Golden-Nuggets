@@ -1,57 +1,71 @@
-/*.games {
-    display: flex;
-    flex-direction: column;
-}*/
-
-
-.genreRow {}
+.games {
+  background-color: #293754;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
 .container {
-
-  margin-bottom: 50px;
-
-  margin-left: 70px;
+  margin: 10px;
 }
 
 .item {
-  display: inline-block hidden;
   position: relative;
-  display: block;
-  flex: 1 1 0px;
+  flex: 0 0 300px;
+  margin-bottom: 20px;
   transition: transform 500ms;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .container:focus-within .item,
 .container:hover .item {
-  transform: translateX(-25%);
+  transform: translateX(-5%);
 }
 
 .item:focus~.item,
 .item:hover~.item {
-  transform: translateX(25%);
+  transform: translateX(5%);
 }
 
 .container .item:focus,
 .container .item:hover {
-  transform: scale(1.5);
+  transform: scale(1.05);
   z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .item img {
   display: block;
-
-  width: 300px;
+  width: 100%;
   height: 170px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.item img:hover {
+  transform: scale(1.1);
 }
 
 .gameGenreTitles {
-  margin-bottom: 50px;
-  display: block;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+}
+
+.iframe-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .iframe {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-
+  width: 100%;
+  height: 100%;
+  border: none;
 }
